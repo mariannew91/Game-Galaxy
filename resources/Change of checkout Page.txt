@@ -1,0 +1,226 @@
+Change of 
+
+
+if (nextFormBtn) {
+    nextFormBtn.addEventListener('click', (e) => {
+        /*paymentInputs.classList.add('form-open');
+        deliveryDetails.classList.remove('form-open');*/
+        checkoutContainer.classList.add('form-step-two');
+        checkoutContainer.classList.remove('form-step-one');
+    });
+};
+
+function openPaymentOptions() {
+    backFormBtn.disabled = false;
+};
+
+/* Form*/
+
+/* Payment Options */
+
+.checkout-container.form-step-two #payment-inputs {
+    display: flex;
+    width: 228px;
+    flex-direction: column;
+}
+
+.checkout-container.form-step-two .payment-options {
+    background-color: var(--bg-card);
+    padding: 30px;
+    width: unset;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.checkout-container.form-step-two #back-form {
+    display: inline-block;
+    width: 100%;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.checkout-container.form-step-two .customer-details {
+    background-color: #424f76;
+    padding: 15px 5px;
+    border-right: none;
+}
+
+.checkout-container.form-step-two #card-details {
+    display: none;
+}
+
+.checkout-container.form-step-two #delivery-header {
+    display: block;
+}
+
+.checkout-container.form-step-two .payment-options label {
+    width: 228px;
+    padding: 8px 15px;
+}
+
+.checkout-container.form-step-two .payment-options span {
+    display: flex;
+}
+
+.checkout-container.form-step-two .payment-options label i {
+    font-size: 33px;
+}
+
+/* The text and icon display depends on screen size */
+
+.checkout-container.form-step-two #delivery-header-text {
+    display: none;
+}
+
+.checkout-container.form-step-two #delivery-header-icon {
+    display: flex;
+}
+
+.checkout-container.form-step-two #payment-header-text {
+    display: block;
+}
+
+.checkout-container.form-step-two #payment-header-icon {
+    display: none;
+}
+
+/* Delivery Details */
+
+.checkout-container.form-step-one #payment-inputs {
+    width: fit-content;
+    display: none;
+}
+
+.checkout-container.form-step-one .payment-options {
+    background-color: #424f76;
+    padding: 15px 5px;
+}
+
+.checkout-container.form-step-one .customer-details {
+    background-color: var(--bg-card);
+    padding: 15px;
+}
+
+.checkout-container.form-step-one #delivery-header-text {
+    display: block;
+}
+
+.checkout-container.form-step-one #delivery-header-icon {
+    display: none
+}
+
+.checkout-container.form-step-one #payment-header-text {
+    display: none;
+}
+
+.checkout-container.form-step-one #payment-header-icon {
+    display: block;
+}
+
+.checkout-container.form-step-one #card-details {
+    display: none;
+}
+
+/* Card Details */
+
+.checkout-container.form-step-three #card-details {
+    display: flex;
+}
+
+.checkout-container.form-step-three .payment-options {
+    background-color: #424f76;
+    width: 45px;
+    padding: 15px 5px;
+}
+
+.checkout-container.form-step-three .payment-options label {
+    width: 33px;
+    padding: 8px 3px;
+}
+
+.checkout-container.form-step-three .payment-options span {
+    display: none;
+}
+
+.checkout-container.form-step-three .payment-options label i {
+    font-size: 23px;
+}
+
+.checkout-container.form-step-three #back-form {
+    opacity: 0;
+    cursor: auto;
+    width: 20px;
+}
+
+.checkout-container.form-step-three .customer-details {
+    border-right: 2px solid var(--bg-main);
+    background-color: rgb(93 103 132);
+}
+
+.checkout-container.form-step-three #name, .checkout-container.form-step-three #card-number {
+    width: 235px;
+}
+
+.checkout-container.form-step-three #delivery-header {
+    display: none;
+}
+
+.checkout-container.form-step-three .customer-details {
+    padding: 15px 3px;
+}
+
+
+
+
+
+
+
+
+
+
+
+if (backPaymentBtn) {
+    backPaymentBtn.addEventListener('click', (e) => {
+        checkoutContainer.classList.add('form-step-two');
+        checkoutContainer.classList.remove('form-step-three');
+        backFormBtn.disabled = false;
+    });
+};
+
+if (backFormBtn) {
+    backFormBtn.addEventListener('click', (e) => {
+        checkoutContainer.classList.add('form-step-one');
+        checkoutContainer.classList.remove('form-step-two');
+        const checkedRadio = paymentInputs.querySelector('input[type="radio"]:checked');
+        if (checkedRadio) {
+            checkedRadio.checked = false;
+        };
+    });
+};
+
+
+const nextFormBtn = document.getElementById('next-form');
+const backFormBtn = document.getElementById('back-form');
+const backPaymentBtn = document.getElementById('back-pay-btn')
+const paymentInputs = document.getElementById('payment-inputs');
+const deliveryDetails = document.getElementById('delivery-details');
+const paymentOptions = document.querySelector('.payment-options');
+const customerDetailsContainer = document.querySelector('.customer-details');
+const cardDetailsContainer = document.getElementById('card-details');
+const checkoutFormForm = document.querySelector('.checkout-form form');
+const cardNameInput = document.getElementById('name');
+const cardNumInput = document.getElementById('card-number');
+const deliveryHeader = document.getElementById('delivery-header');
+const deliveryHeaderIcon = document.getElementById('delivery-header-icon');
+const deliveryHeaderText = document.getElementById('delivery-header-text');
+const paymentHeaderIcon = document.getElementById('payment-header-icon');
+const paymentHeaderText = document.getElementById('payment-header-text');
+
+/* function closePaymentOptions() {
+    let originalHeight = paymentOptions.offsetHeight;
+    cardDetailsContainer.style.height = `${originalHeight}px`;
+}; */
+
+
+

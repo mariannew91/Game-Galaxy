@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+        
+        <title>Game Galaxy 🎮</title>
+        <link rel="stylesheet" href="./resources/style.css">
+        <script src="./resources/script.js" defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    </head>
+    <body>
+        <section class="top-bar-container">
+            <div class="top-bar">
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="games.html">Games</a></li>
+                    </ul>
+                </nav>
+                <a href="index.html"><img class="logo" src="./resources/images/GGlogo.png" alt="Game Galaxy Logo"></a>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Search for games...">
+                    <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button id="open-searchbar"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+                <div class="search-dropdown"></div>
+                <div class="basket">
+                    <div class="basket-total"></div>
+                    <a href="basket.html"><i class="fa-solid fa-cart-shopping"></i><span id="basket-count">0</span></a>
+                </div>
+            </div>
+            <div id="discount">
+                <p>!! Free delivery over £80 !!</p>
+            </div>
+        </section>
+        <header id="checkout-header">
+            <a class="back-to-basket" id="back-to-basket-text" href="basket.html"><i class="fa-solid fa-chevron-left"></i>Back to basket </a>
+            <a class="back-to-basket" id="back-to-basket-icon" href="basket.html"><i class="fa-solid fa-chevron-left"></i></a>
+            <div id="header-title">
+                <h1>Checkout</h1>
+                <p id="important"><i class="fa-solid fa-exclamation"></i>This is a portfolio project demonstration. No real transactions will take place.<i class="fa-solid fa-exclamation"></i></p>
+            </div>
+        </header>
+            
+        <div id="checkout-main-body">
+            <div class="checkout-container visible form-step-one">
+                <form id="checkout-form">
+                    <section class="customer-details">
+                        <h3 id="delivery-header"><span id="delivery-header-text">Delivery</span><i id="delivery-header-icon" class="fa-regular fa-truck"></i></h3>
+                        <div id="delivery-details" class="form-open">
+                            <div class="customer-name">
+                                <label for="firstname">First Name</label>
+                                <input type="text" id="firstname" name="firstname" autocomplete="given-name" placeholder="Your first name" required>
+                                <label for="surname">Last Name</label>
+                                <input type="text" id="surname" name="surname" autocomplete="family-name" placeholder="Your last name" required>
+                            </div>
+                            <div class="customer-address">
+                                <label>Your address</label>
+                                <input type="text" id="customer-address" name="customer-address" autocomplete="street-address" placeholder="Address Line 1 (e.g., 14 High Street)" required>
+                                <div id="customer-address-group" style="display: flex;">
+                                    <input type="text" id="customer-city" name="customer-city" autocomplete="address-level2" placeholder="Town / City" required>
+                                    <input type="text" id="customer-postcode" name="customer-postcode" autocomplete="postal-code" placeholder="Postcode" required>
+                                </div>
+                            </div>
+                            <div class="customer-email" id="customer-email">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" autocomplete="email" placeholder="Your email" required>
+                                <button id="next-form" type="button"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="payment">
+                        <section class="payment-options">
+                            <h3><span id="payment-header-text">Payment</span><i id="payment-header-icon" class="fa-solid fa-credit-card"></i></h3>
+                            <div id="payment-inputs">
+                                <label><input type="radio" name="payment-type" value="apple" required><span>Apple Pay</span><i class="fa-brands fa-apple"></i></label>
+                                <label><input type="radio" name="payment-type" value="paypal" required><span>PayPal</span><i class="fa-brands fa-paypal"></i></label>
+                                <label><input type="radio" name="payment-type" value="visa" required><span>Visa</span><i class="fa-brands fa-cc-visa"></i></label>
+                                <label><input type="radio" name="payment-type" value="mastercard" required><span>Mastercard</span><i class="fa-brands fa-cc-mastercard"></i></label>
+                                <button id="back-form" type="button"><i class="fa-solid fa-chevron-left"></i></button>
+                            </div>
+                        </section>
+                        <div id="card-details">
+                            <h3 id="card-header">Card Details</h3>
+                            <label>Name on card</label>
+                            <input required type="text" id="name" name="name" autocomplete="cc-name">
+                            <label>Card number</label>
+                            <input required type="text" id="card-number" name="card-number" inputmode="numeric" autocomplete="cc-number" maxlength="19" pattern="[\d\s]+">
+                            <section class="date-code">
+                                <div class="expiry">
+                                    <label for="expiry-date">Expiry date</label>
+                                    <input required type="text" id="expiry-date" name="expiry-date" class="expiry-date" autocomplete="cc-exp" placeholder="MM/YY" maxlength="6">
+                                </div>
+                                <div class="security">
+                                    <label for="security-code">Security code</label>
+                                    <input required type="text" id="security-code" name="security-code" autocomplete="cc-csc" inputmode="numeric" minlength="3" maxlength="4" pattern="[0-9]+">
+                                </div>
+                            </section>
+                            <button id="back-pay-btn" type="button"><i class="fa-solid fa-chevron-left"></i></button>
+                        </div>
+                    </section>
+                </form>
+                <div class="checkout-summary"></div>
+                <div id="pay"></div>
+                
+            </div>
+            <div id="pay-submitted">
+                <h2>Demo order successful! No actual payment was charged.</h2>
+            </div>
+
+        </div>
+        <footer>
+            <p>This website is a portfolio project built for educational purposes only. It is not an actual commercial store, and no items are for sale.</p>
+        </footer>
+    </body>
+</html>

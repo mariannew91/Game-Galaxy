@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+        
+        <title>Game Galaxy 🎮</title>
+        <link rel="stylesheet" href="./resources/style.css">
+        <script src="./resources/script.js" defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    </head>
+    <body id="games-page-body">
+        <section class="top-bar-container">
+            <div class="top-bar">
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="games.html">Games</a></li>
+                    </ul>
+                </nav>
+                <a href="index.html"><img class="logo" src="./resources/images/GGlogo.png" alt="Game Galaxy Logo"></a>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Search for games...">
+                    <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button id="open-searchbar"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+                <div class="search-dropdown"></div>
+                <div class="basket">
+                    <div class="basket-total"></div>
+                    <a href="basket.html"><i class="fa-solid fa-cart-shopping"></i><span id="basket-count">0</span></a>
+                </div>
+            </div>
+            <div id="discount">
+                <p>!! Free delivery over £80 !!</p>
+            </div>
+        </section>
+        <header>
+            <h1>Choose your games</h1>
+        </header>
+        <div id="search-results-container">
+            <div id="search-results"></div>
+        </div>
+        <div class="games-main-body">
+            <div id="filter-bar">
+                <section id="filter">
+                    <div id="filter-buttons">
+                        <button id="genre">Genre <i class="fa-solid fa-chevron-down"></i></button>
+                        <button id="price">Price <i class="fa-solid fa-chevron-down"></i></button>
+                        <button id="clear-all-filters-btn">Clear All<i class="fa-solid fa-x"></i></button>
+                    </div>
+                    <div id="chosen-filters"></div>
+                    <div id="filter-dropdown-container">
+                        <div id="genre-container" class="options-container">
+                            <p>Select genre<span class="clear" id="clear-genre"></span></p>
+                            <div class="filter-options" id="genre-options">
+                                <label><input type="checkbox" name="genre-choice" value="RPG"> RPG</label>
+                                <label><input type="checkbox" name="genre-choice" value="Open World"> Open World</label>
+                                <label><input type="checkbox" name="genre-choice" value="Platformer"> Platformer</label>
+                                <label><input type="checkbox" name="genre-choice" value="Action-Adventure"> Action Adventure</label>
+                                <label><input type="checkbox" name="genre-choice" value="Stealth"> Stealth</label>
+                            </div>
+                        </div>
+                        <div id="price-container" class="options-container">
+                            <p>Select price<span class="clear" id="clear-price"></span></p>
+                            <div class="filter-options" id="price-options">
+                                <label><input type="checkbox" name="price-choice" value="10-20"> £10-20</label>
+                                <label><input type="checkbox" name="price-choice" value="20-30"> £20-30</label>
+                                <label><input type="checkbox" name="price-choice" value="30-40"> £30-40</label>
+                                <label><input type="checkbox" name="price-choice" value="40-50"> £40-50</label>
+                                <label><input type="checkbox" name="price-choice" value="50-50"> £50-60</label>
+                                <label><input type="checkbox" name="price-choice" value="60-70"> £60+</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <section class="for-sale-games">
+
+            </section>
+
+        </div>
+        <footer>
+            <p>This website is a portfolio project built for educational purposes only. It is not an actual commercial store, and no items are for sale.</p>
+        </footer>
+    </body>
+</html>
