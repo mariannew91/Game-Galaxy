@@ -83,20 +83,22 @@
                         </section>
                         <div id="card-details">
                             <h3 id="card-header">Card Details</h3>
-                            <label>Name on card</label>
-                            <input required type="text" id="name" name="name" autocomplete="cc-name">
-                            <label>Card number</label>
-                            <input required type="text" id="card-number" name="card-number" inputmode="numeric" autocomplete="cc-number" maxlength="19" pattern="[\d\s]+">
-                            <section class="date-code">
-                                <div class="expiry">
-                                    <label for="expiry-date">Expiry date</label>
-                                    <input required type="text" id="expiry-date" name="expiry-date" class="expiry-date" autocomplete="cc-exp" placeholder="MM/YY" maxlength="6">
-                                </div>
-                                <div class="security">
-                                    <label for="security-code">Security code</label>
-                                    <input required type="text" id="security-code" name="security-code" autocomplete="cc-csc" inputmode="numeric" minlength="3" maxlength="4" pattern="[0-9]+">
-                                </div>
-                            </section>
+                            <div id="card-inputs">
+                                <label>Name on card</label>
+                                <input required type="text" id="name" name="name" autocomplete="cc-name">
+                                <label>Card number</label>
+                                <input required type="text" id="card-number" name="card-number" inputmode="numeric" autocomplete="cc-number" maxlength="19" pattern="[\d\s]+">
+                                <section class="date-code">
+                                    <div class="expiry">
+                                        <label for="expiry-date">Expiry date</label>
+                                        <input required type="text" id="expiry-date" name="expiry-date" class="expiry-date" autocomplete="cc-exp" placeholder="MM/YY" maxlength="6">
+                                    </div>
+                                    <div class="security">
+                                        <label for="security-code">Security code</label>
+                                        <input required type="text" id="security-code" name="security-code" autocomplete="cc-csc" inputmode="numeric" minlength="3" maxlength="4" pattern="[0-9]+">
+                                    </div>
+                                </section>
+                            </div>
                             <button id="back-pay-btn" type="button"><i class="fa-solid fa-chevron-left"></i></button>
                         </div>
                     </section>

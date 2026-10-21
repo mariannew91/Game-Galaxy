@@ -268,6 +268,7 @@ function renderFeaturedGames() {
     };
 
     topGames.innerHTML = homePageFeaturedGames;
+    cartButtonListener();
 };
 
 const nextSlide = document.querySelector('.next-slide');
@@ -918,6 +919,7 @@ function renderGamePage(games = loadSearchQuery()) {
         });
         gamePage.innerHTML = gamesForSale;
     };
+    cartButtonListener();
     if (gamesMainBody) {
         gamesMainBody.classList.add('visible');
     };
@@ -1146,25 +1148,28 @@ if (clearPriceBtn) {
 
 /* Add game to basket */
 
-const cartButtons = document.querySelectorAll('.cart-button');
-cartButtons.forEach((button) => {
-    button.addEventListener('click', (e) => {
-        
-        const gameDataInfo = gameData.find((game) => game.id === Number(e.currentTarget.dataset.id));
-            
-        const existingGameIndex = basket.findIndex((game) => game.id === gameDataInfo.id);
-        if (existingGameIndex > -1) {
-            basket[existingGameIndex].quantity += 1;
-        } else {
-            gameDataInfo.quantity = 1;
-            basket.push(gameDataInfo);  
-        }
+function cartButtonListener() {
+    const cartButtons = document.querySelectorAll('.cart-button');
 
-        localStorage.setItem('user-basket', JSON.stringify(basket));
-        updateBasketCount();
-        updateBasketTotal();
-    })
-})
+    cartButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            
+            const gameDataInfo = gameData.find((game) => game.id === Number(e.currentTarget.dataset.id));
+                
+            const existingGameIndex = basket.findIndex((game) => game.id === gameDataInfo.id);
+            if (existingGameIndex > -1) {
+                basket[existingGameIndex].quantity += 1;
+            } else {
+                gameDataInfo.quantity = 1;
+                basket.push(gameDataInfo);  
+            }
+
+            localStorage.setItem('user-basket', JSON.stringify(basket));
+            updateBasketCount();
+            updateBasketTotal();
+        });
+    });
+};
 
 /* Search bar */
 
