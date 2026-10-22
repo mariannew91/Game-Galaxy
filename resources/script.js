@@ -34,24 +34,27 @@ const paymentOptionsLabels = document.querySelectorAll('#payment-inputs label');
 const paymentOptionsIcons = document.querySelectorAll('#payment-inputs label i');
 const paymentOptionsSpans = document.querySelectorAll('#payment-inputs span');
 const gamesMainBody = document.getElementById('games-page-body');
+const productPage = document.querySelector('.product-main-body');
+const productBackButton = document.getElementById('all-games');
 let countdown;
 let toastTimer;
 let previousBasket;
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    reapplyFilters()
+    if (gamePage) {
+        reapplyFilters()
+    }
 });
 
 window.addEventListener('pageshow', (event) => {
-    console.log("Pageshow fired!");
     if (event.persisted) {
         reapplyFilters();
     }
 });
 
 function reapplyFilters() {
-    console.log("Storage on pageshow:", sessionStorage.getItem('savedGenres'));
+    const navSource = sessionStorage.getItem('navSource');
     const savedGenres = JSON.parse(sessionStorage.getItem('savedGenres'));
     const savedPrices = JSON.parse(sessionStorage.getItem('savedPrices'));
     if (savedGenres && savedGenres.length > 0) {
@@ -74,17 +77,28 @@ function reapplyFilters() {
             };
         });
     };
+
     const searchQuery = new URLSearchParams(window.location.search).get('search');
     if (searchQuery) {
-        document.querySelectorAll('input[type="checkbox"]').forEach((box) => {
-            box.checked = false;
-        });
+        if (navSource === 'fresh-search') {
+            document.querySelectorAll('input[type="checkbox"]').forEach((box) => {
+                box.checked = false;
+            });
+            sessionStorage.removeItem('savedGenres');
+            sessionStorage.removeItem('savedPrices');
+            if (clearGenreBtn) clearGenreBtn.innerHTML = '';
+            if (clearPriceBtn) clearPriceBtn.innerHTML = '';
+            const chosenFilters = document.getElementById('chosen-filters');
+            if (chosenFilters) chosenFilters.innerHTML = '';
+            sessionStorage.removeItem('navSource');
+        } else {
+            sessionStorage.removeItem('navSource');
+        }
+    } else if (navSource !== 'filtered') {
         sessionStorage.removeItem('savedGenres');
         sessionStorage.removeItem('savedPrices');
-        if (clearGenreBtn) clearGenreBtn.innerHTML = '';
-        if (clearPriceBtn) clearPriceBtn.innerHTML = '';
-        const chosenFilters = document.getElementById('chosen-filters');
-        if (chosenFilters) chosenFilters.innerHTML = '';
+    } else {
+        sessionStorage.removeItem('navSource');
     };
 
     applyFilters();
@@ -226,7 +240,6 @@ const gameData = [
 
 function renderFeaturedGames() {
     const featuredGames = gameData.filter(checkGameFeatured);
-
     function checkGameFeatured(game) {
         return game.featured;
     }
@@ -236,7 +249,7 @@ function renderFeaturedGames() {
         homePageFeaturedGames += `
         <div class="carousel-slide">
             <div class="featured-game">
-                <div class="game-card"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'catalog-or-search')">
+                <div class="game-card"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'catalogue-or-search')">
                     <img class="game-image" id="featured-image" src="${game.featimage}" alt="${game.alt}"></a>
                     
                     <div class="card-footer" id="price-tag">
@@ -254,14 +267,15 @@ function renderFeaturedGames() {
         homePageFeaturedGames += `
         <div class="carousel-slide">
             <div class="featured-game">
-                <div class="game-card"><a href="product.html?gameId=${firstGame.id}" onclick="sessionStorage.setItem('navSource', 'catalog-or-search')">
+                <div class="game-card"><a href="product.html?gameId=${firstGame.id}" onclick="sessionStorage.setItem('navSource', 'catalogue-or-search')">
                     <img class="game-image" id="featured-image" src="${firstGame.featimage}" alt="${firstGame.alt}"></a>
+                
+                    <div class="card-footer" id="price-tag">
+                        <button class="cart-button" data-id="${firstGame.id}"><i class="fa-solid fa-cart-plus"></i></button>
+                        <p class="game-price">£${firstGame.price}</p>
+                        
+                    </div>
                 </div>  
-                <div class="card-footer">
-                    <button class="cart-button" data-id="${firstGame.id}"><i class="fa-solid fa-cart-plus"></i></button>
-                    <p class="game-price">£${firstGame.price}</p>
-                    
-                </div>
             </div>
         </div>
         `;
@@ -330,6 +344,27 @@ if (homePage) {
     });
 };
 
+if (homePage) {
+    document.querySelectorAll('.genre-card').forEach((card) => {
+        card.addEventListener('click', (e) => {
+            let genreName = card.querySelector('span').textContent;
+            sessionStorage.setItem('savedGenres', JSON.stringify([genreName]));
+            sessionStorage.setItem('navSource', 'filtered');
+        });
+    });
+};
+
+const navLinks = document.querySelector('.nav-links');
+navLinks.addEventListener('click', (e) => {
+    const clickedLink = e.target.closest('a');
+        
+    if (clickedLink) {
+        sessionStorage.removeItem('navSource');
+        sessionStorage.removeItem('savedGenres');
+        sessionStorage.removeItem('savedPrices');
+    };
+});
+
 if (topGames) {
     renderFeaturedGames();
 }
@@ -341,8 +376,6 @@ const numericGameId = Number(gameId);
 const selectedGame = gameData.find((game) => game.id === numericGameId);
 
 /* Product Page */
-
-const productPage = document.querySelector('.product-main-body');
 
 if (selectedGame) {
     productPage.innerHTML = `
@@ -357,11 +390,9 @@ if (selectedGame) {
     `;
 };
 
-const productBackButton = document.getElementById('all-games');
-const navSource = sessionStorage.getItem('navSource');
-
 if (productPage) {
-    if (navSource !== 'catalog-or-search') {
+    const navSource = sessionStorage.getItem('navSource');
+    if (navSource !== 'catalogue-or-search') {
         productBackButton.textContent = 'Return to search';
         productBackButton.addEventListener('click', () => {
             window.history.back();
@@ -905,8 +936,8 @@ function renderGamePage(games = loadSearchQuery()) {
         games.forEach((game) => {
             gamesForSale += `
                 <div class="game-shop-card">
-                    <h3 class="game-title"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'filtered')">${game.title}</a></h3>
-                    <div class="game-card"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'filtered')">
+                    <h3 class="game-title"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'search-return')">${game.title}</a></h3>
+                    <div class="game-card"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'search-return')">
                         <p class="game-description">${game.description}</p>
                         <img class="game-image" src="${game.image}" alt="${game.alt}"></a>
                     </div>  
@@ -1196,7 +1227,7 @@ searchbarInput.addEventListener('input', (searchGames) => {
         } else {
             let dropdownHTML = '';
             filteredGames.forEach((game) => {
-                dropdownHTML += `<a href="product.html?gameId=${game.id}" class="search-item-link" onclick="sessionStorage.setItem('navSource', 'catalog-or-search')">
+                dropdownHTML += `<a href="product.html?gameId=${game.id}" class="search-item-link" onclick="sessionStorage.setItem('navSource', 'catalogue-or-search')">
                     <div class="search-item">
                         <img class="search-item-image" src="${game.image}" alt="${game.alt}">
                         <div class="search-item-details">
@@ -1252,6 +1283,7 @@ function performSearch() {
 
     sessionStorage.removeItem('savedGenres');
     sessionStorage.removeItem('savedPrices');
+    sessionStorage.setItem('navSource', 'fresh-search');
 
     window.location.href =
         `games.html?search=${encodeURIComponent(query)}`;
