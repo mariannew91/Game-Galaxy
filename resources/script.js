@@ -384,10 +384,11 @@ if (selectedGame) {
             <p class="product-description">${selectedGame.description}</p>
             <div class="buy-product">
                 <p class="product-price">£${selectedGame.price}</p>
-                <button class="cart-button" data-id="${selectedGame.id}">Add to Basket</button>
+                <button class="cart-button" id="product-cart-btn" data-id="${selectedGame.id}">Add to Basket</button>
             </div>
         </div>
     `;
+    cartButtonListener();
 };
 
 if (productPage) {
