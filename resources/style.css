@@ -37,6 +37,10 @@ body {
     top: 70px;
 }
 
+input, textarea {
+    font-size: 16px;
+}
+
 #home-body {
     padding: 10px 0;
     margin: 0;
@@ -2263,7 +2267,6 @@ input[type=text]:focus {
 
     #clear-all-filters-btn {
         font-size: 0.8rem !important;
-        display: flex !important;
     }
 
     #filter {
@@ -2315,7 +2318,7 @@ input[type=text]:focus {
 
 @media (max-width: 350px) {
     #open-searchbar {
-        right: 110px;
+        right: 117px;
     }
 
     li a {

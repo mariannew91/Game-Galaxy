@@ -672,13 +672,9 @@ function renderCheckoutPage() {
                         backFormBtn.disabled = true;
                         let originalHeight = paymentOptions.offsetHeight;
                         cardDetailsContainer.style.height = `${originalHeight}px`;
-                        if (checkoutContainer.classList.contains('form-step-two')) {
-                            checkoutContainer.classList.add('form-step-three');
-                            checkoutContainer.classList.remove('form-step-two');
-                        } else {
-                            checkoutContainer.classList.add('form-step-three');
-                            checkoutContainer.classList.remove('form-step-two');
-                        };
+                        checkoutContainer.classList.add('form-step-three');
+                        checkoutContainer.classList.remove('form-step-two');
+                        
                         checkCardInputs();
                     } else if (radio.value === 'paypal') {
                         cardInputs.forEach(input => input.removeAttribute('required'));
@@ -1020,6 +1016,7 @@ function applyFilters() {
             const currentCheckbox = document.querySelector(`input[name="genre-choice"][value="${genre}"]`);
             currentCheckbox.checked = false;
             applyFilters();
+            sessionStorage.removeItem('savedGenres');
         });
     });
 
@@ -1040,6 +1037,7 @@ function applyFilters() {
             const currentCheckbox = document.querySelector(`input[name="price-choice"][value="${priceobj.value}"]`);
             currentCheckbox.checked = false;
             applyFilters();
+            sessionStorage.removeItem('savedPrices');
         });
     });
 
@@ -1079,7 +1077,6 @@ if (priceBtn) {
                 return {min: Number(minPrice), max: Number(maxPrice)};
             });
             sessionStorage.setItem('savedPrices', JSON.stringify(checkedPrices));
-            applyFilters();
         }
     });      
 };
@@ -1134,9 +1131,11 @@ if (gamesMainBody) {
         allCheckedBoxes.forEach((box) => {
             box.checked = false;
         });
+        sessionStorage.removeItem('savedGenres');
+        sessionStorage.removeItem('savedPrices');
         applyFilters();
     });
-}
+};
 
 function updatePriceClearButton() {
     if (priceContainer.querySelector('input[type="checkbox"]:checked')) {
