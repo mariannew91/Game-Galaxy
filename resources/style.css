@@ -20,7 +20,8 @@
     --font-body: 'Inter', sans-serif;
 
     /* Reusable UI Components */
-    --border-radius: 8px;
+    --border-radius: var(--border-radius);
+    --card-border-radius: 8px;
     --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -276,7 +277,7 @@ header p {
     text-align: center;
     margin: 0 auto;
     padding: 7px;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background: radial-gradient(circle at 30% 40%, #162647 0%, #0a1732 60%, #07080b 100%);
     border: 2px solid var(--bg-card-hover);
     font-size: clamp(12px, 5vw, 22px);
@@ -400,7 +401,7 @@ header p {
     justify-content: space-between;
     background: radial-gradient(circle at 30% 40%, #162647 0%, #0a1835 60%, #07080b 500%);
     border: 2px solid var(--bg-card-hover);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     margin: 0 auto;
     width: fit-content;
     padding: 20px;
@@ -466,7 +467,7 @@ header p {
     border: 2px solid var(--bg-card-hover);
     padding: 5px;
     gap: 5px;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background: radial-gradient(circle at 30% 40%, #162647 0%, #0a1732 60%, #07080b 100%);
 }
 
@@ -487,7 +488,7 @@ header p {
 .explore-button {
     background-color: var(--accent-pink);
     color: white;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     padding: 5px 12px;
 }
 
@@ -519,10 +520,12 @@ header p {
     display: flex;
     flex-direction: column;
     background-color: var(--bg-card);
-    border-radius: var(--border-radius);
+    border-radius: var(--card-border-radius);
     box-shadow: var(--card-shadow);
     padding: 20px;
     transition: transform 0.3s, box-shadow 0.3s;
+    width: clamp(180px, 23vw, 230px);
+    margin: 10px;
 }
 
 .game-card {
@@ -530,6 +533,15 @@ header p {
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+.game-shop-card .game-title {
+    height: 2.8em; 
+    line-height: 1.4em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .game-title {
@@ -548,70 +560,51 @@ header p {
     color: var(--accent-pink-hover);
 }
 
-.game-image {
+.games-main-body .game-image {
+    aspect-ratio: 3 / 4;
     width: 100%;
     max-width: 260px;
     max-height: 285px;
     object-fit: cover;
-    border-radius: var(--border-radius);
+    border-radius: var(--card-border-radius);
 }
 
 #featured-image {
-    height: auto !important;
-    max-width: unset;
-    max-height: 550px;
-    object-fit: contain !important;
-}
-
-.games-main-body .game-description {
-    padding: 15px;
-    font-size: 15px;
-    line-height: 1.4;
-}
-
-.featured-game .game-description {
-    font-size: 18px;
-    line-height: 1.4;
-    text-align: start;
-}
-
-.game-description {
-    position: absolute;
+    height: auto;
     width: 100%;
-    height: 100%;
-    background-color: rgb(88 98 129 / 89%);
-    font-family: var(--font-heading);
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    padding: 30px;
-    line-height: 1.3rem;
-    cursor: pointer;
-    border-radius: var(--border-radius);
-    overflow: scroll;
-    
+    max-height: 550px;
+    object-fit: contain;
+    border-radius: var(--card-border-radius);
 }
 
-.game-description:hover {
-    opacity: 1;
-    transition: opacity 0.3s;
+.game-info {
+    position: absolute;
+    background-color: rgb(88 98 129 / 62%);
+    width: 100%;
+    text-align: center;
+    justify-content: space-between;
+    display: none;
+    padding: 5px;
+    bottom: 0;
+    border-radius: 0 0 8px 8px;
+    border: none;
+    color: var(--text-main);
 }
 
 .card-footer {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-top: auto;
+    padding: 0 10px;
 }
 
 .cart-button {
     background-color: transparent;
     color: var(--accent-pink);
     border: none;
-    padding: 10px 15px;
-    border-radius: var(--border-radius);
+    padding: 10px 0;
+    border-radius: var(--card-border-radius);
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 1.3rem;
@@ -708,7 +701,7 @@ footer p {
 
 .basket-items {
     padding: 20px;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background-color: var(--bg-card);
     flex: 1;
 }
@@ -735,7 +728,7 @@ footer p {
     padding: 10px;
     border: 1px solid var(--bg-main);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background-color: var(--bg-card-hover);
     transition: transform 0.3s ease, opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease;
     container-type: inline-size;
@@ -751,7 +744,7 @@ footer p {
     padding: 10px;
     border: 1px solid var(--bg-main);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background-color: var(--bg-card-hover);
 }
 
@@ -791,7 +784,7 @@ footer p {
     color: var(--accent-pink);
     border: none;
     padding: 10px 5px;
-    border-radius: var(--border-radius);
+    border-radius: var(--card-border-radius);
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 1rem;
@@ -838,7 +831,7 @@ footer p {
 #basket-summary {
     padding: 30px 25px 50px;
     background-color: var(--bg-card);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     anchor-name: --summary-anchor;
 }
 
@@ -846,7 +839,7 @@ footer p {
     margin: 0 auto;
     background-color: var(--bg-card-hover);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     padding: 10px clamp(20px, 2vw, 40px);
 }
 
@@ -1224,11 +1217,7 @@ input[type="radio"] {
 .for-sale-games {
     flex-wrap: wrap;
     justify-content: center !important;
-}
-
-.game-shop-card {
-    width: clamp(180px, 15vw, 230px);
-    margin: 15px;
+    align-items: flex-start;
 }
 
 /* Checkout Page */
@@ -1289,7 +1278,7 @@ input[type="radio"] {
     position: relative;
     position-anchor: --summary-anchor;
     top: anchor(--summary-anchor top);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     height: fit-content;
     anchor-name: --pay-anchor;
 }
@@ -1301,7 +1290,7 @@ input[type="radio"] {
 
 .checkout-table {
     box-shadow: 2px 2px 5px rgb(0 0 0 / 66%);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background-color: var(--bg-card-hover);
     width: 100%;
     padding: 20px;
@@ -1362,7 +1351,7 @@ tr {
 }
 
 .checkout-table td {
-    font-size: 13px;
+    font-size: 14px;
     padding: 10px 10px 10px 15px;
     font-family: var(--font-body);
 }
@@ -1413,7 +1402,7 @@ tfoot td:last-child {
 }
 
 .customer-details, .payment-options, #card-details {
-    border-radius: 4px;
+    border-radius: var(--border-radius);
 }
 
 .payment-options {
@@ -1476,7 +1465,7 @@ form h3 {
     margin-bottom: 20px;
     width: 255px;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background-color: var(--bg-card-hover);
     border: none;
     color: var(--text-main);
@@ -1557,7 +1546,7 @@ input[type=text]:focus {
     justify-content: space-between;
     background-color: var(--bg-card-hover);
     box-shadow: 2px 2px 5px rgb(0 0 0 / 66%);
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     align-items: center;
 }
 
@@ -1606,7 +1595,7 @@ input[type=text]:focus {
     cursor: pointer;
     border: none;
     min-width: 180px;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     padding: 10px 15px;
     background: radial-gradient(circle at 25% 25%, #ff559f 0%, #ff2a85 40%, #ba1b66 100%);
     background-color: var(--accent-pink);
@@ -1634,6 +1623,52 @@ input[type=text]:focus {
 #pay-submitted h2 {
     font-family: var(--font-body);
     font-weight: lighter;
+}
+
+@media (hover: none) {
+    
+
+    .game-info {
+        display: flex;
+    }
+
+    .game-description {
+        position: relative;
+        display: none;
+        color: white;
+        opacity: 1;
+        height: fit-content;
+    }
+}
+
+/* Targets devices with a mouse/trackpad pointer */
+@media (hover: hover) {
+
+    .game-card:hover .game-description{
+        opacity: 1;
+        transition: opacity 0.3s;
+    }
+
+    .game-description {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(88 98 129 / 89%);
+        font-family: var(--font-heading);
+        margin: 0;
+        display: flex;
+        top: 0;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        padding: 15px;
+        line-height: 1.3rem;
+        cursor: pointer;
+        border-radius: var(--card-border-radius);
+        overflow: scroll;
+        font-size: 15px;
+        line-height: 1.4;
+    }
 }
 
 @media (max-width: 1120px) {
@@ -1776,8 +1811,6 @@ input[type=text]:focus {
     .checkout-container.form-step-two .payment-options label i {
         font-size: 33px;
     }
-
-    /* The text and icon display depends on screen size */
 
     .checkout-container.form-step-two #delivery-header-text {
         display: none;
@@ -2029,7 +2062,7 @@ input[type=text]:focus {
     }
 
     .basket-price-amount {
-        font-size: clamp(12px, 3cqi, 14px);
+        font-size: 14px;
     }
 
     .grand-total-row td:last-child {
@@ -2132,28 +2165,35 @@ input[type=text]:focus {
 @media (max-width: 573px) {
 
     .game-shop-card {
-        width: clamp(120px, 30vw, 170px);
+        width: clamp(150px, 40vw, 170px);
         padding: 10px;
     }
 
     .game-title a {
-        font-size: clamp(12px, 3vw, 18px);
+        font-size: clamp(16px, 3vw, 18px);
     }
 
     .game-price {
-        font-size: clamp(11px, 3vw, 17px);
+        font-size: clamp(14px, 3vw, 17px);
     }
 
     .games-main-body .game-description {
-        font-size: clamp(11px, 3vw, 15px);
+        font-size: clamp(14px, 2vw, 16px);
         line-height: 1.2;
-        padding: 15px 10px;
+        padding: 0 10px;
+        margin-top: 0;
     }
 
     .featured-game .cart-button {
         font-size: clamp(13px, 4vw, 20px);
     }
 
+}
+
+@media (max-width: 543px) {
+    .game-shop-card {
+        width: 48%;
+    }
 }
 
 @media (max-width: 520px) {

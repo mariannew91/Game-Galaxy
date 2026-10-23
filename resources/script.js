@@ -934,8 +934,11 @@ function renderGamePage(games = loadSearchQuery()) {
                 <div class="game-shop-card">
                     <h3 class="game-title"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'search-return')">${game.title}</a></h3>
                     <div class="game-card"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'search-return')">
-                        <p class="game-description">${game.description}</p>
-                        <img class="game-image" src="${game.image}" alt="${game.alt}"></a>
+                        
+                        
+                        <img class="game-image" src="${game.image}" alt="${game.alt}">
+                        <p class="game-description">${game.description}</p></a>
+                        <button class="game-info">View Info<i class="fa-solid fa-info"></i></button>
                     </div>  
                     <div class="card-footer">
                         <p class="game-price">£${game.price}</p>
@@ -946,10 +949,29 @@ function renderGamePage(games = loadSearchQuery()) {
         });
         gamePage.innerHTML = gamesForSale;
     };
+
     cartButtonListener();
     if (gamesMainBody) {
         gamesMainBody.classList.add('visible');
     };
+
+    const gameInfoBtns = document.querySelectorAll('.game-info');
+    gameInfoBtns.forEach((btn) => {
+        const card = btn.closest('.game-shop-card');
+        const gameInfo = card.querySelector('.game-description');
+        btn.addEventListener('click', (e) => {
+            if (gameInfo.style.display === 'none' || gameInfo.style.display === '') {
+                gameInfo.style.display = 'flex';
+                btn.style.position = 'relative';
+                btn.innerHTML = `Close<i class="fa-solid fa-xmark"></i>`;
+            } else {
+                gameInfo.style.display = 'none';
+                btn.style.position = 'absolute';
+                btn.innerHTML = `View Info<i class="fa-solid fa-info"></i>`;
+            };
+        
+        });
+    });
 };
 
 /* All Game Button */
@@ -1091,6 +1113,23 @@ if (genreBtn) {
         }; 
     });
 };
+
+
+document.addEventListener('click', (event) => {
+    const gameInfoBtns = document.querySelectorAll('.game-info');
+    if (gameInfoBtns.length === 0) {
+        return;
+    } else {
+        gameInfoBtns.forEach((btn) => {
+            const card = btn.closest('.game-shop-card');
+            const gameInfo = card.querySelector('.game-description');
+            if (gameInfo.style.display === 'flex' && !card.contains(event.target)) {
+                gameInfo.style.display = 'none';
+            };
+        });
+    };
+});
+
 
 
 if (genreContainer) {
