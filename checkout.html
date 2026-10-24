@@ -12,40 +12,40 @@
     <body>
         <section class="top-bar-container">
             <div class="top-bar">
-                <nav>
+                <nav aria-label="Main Navigation">
                     <ul class="nav-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="games.html">Games</a></li>
                     </ul>
                 </nav>
                 <a href="index.html"><img class="logo" src="./resources/images/GGlogo.png" alt="Game Galaxy Logo"></a>
-                 <div class="search-bar">
-                    <input type="text" id="search-input" placeholder="Search for games...">
+                 <div class="search-bar" role="search">
+                    <input type="text" id="search-input" placeholder="Search for games..." aria-label="Search for games">
                     <div class="tooltip">
-                        <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i><span class="tooltip-text">Search</span></button>
+                        <button id="search-button" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span class="tooltip-text">Search</span></button>
                     </div>
                     <div class="tooltip">
-                        <button id="open-searchbar"><i class="fa-solid fa-magnifying-glass"></i><span class="tooltip-text">Open Searchbar</span></button>
+                        <button id="open-searchbar" aria-label="Open Searchbar"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span class="tooltip-text">Open Searchbar</span></button>
                     </div>
                 </div>
                 <div class="search-dropdown"></div>
                 <div class="basket">
                     <div class="basket-total"></div>
                     <div class="tooltip">
-                        <a href="basket.html"><i class="fa-solid fa-cart-shopping"></i><span id="basket-count">0</span><span class="tooltip-text">Go to basket</span></a>
+                        <a href="basket.html" aria-label="Go to basket"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span id="basket-count">0</span><span class="tooltip-text">Go to basket</span></a>
                     </div>
                 </div>
             </div>
-            <div id="discount">
+            <div id="discount" role="region" aria-label="Promotion">
                 <p>!! Free delivery over £80 !!</p>
             </div>
         </section>
         <header id="checkout-header">
-            <a class="back-to-basket" id="back-to-basket-text" href="basket.html"><i class="fa-solid fa-chevron-left"></i>Back to basket </a>
-            <a class="back-to-basket" id="back-to-basket-icon" href="basket.html"><i class="fa-solid fa-chevron-left"></i></a>
+            <a class="back-to-basket" id="back-to-basket-text" href="basket.html"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>Back to basket </a>
+            <a class="back-to-basket" id="back-to-basket-icon" href="basket.html" aria-label="Back to basket"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></a>
             <div id="header-title">
                 <h1>Checkout</h1>
-                <p id="important"><i class="fa-solid fa-exclamation"></i>This is a portfolio project demonstration. No real transactions will take place.<i class="fa-solid fa-exclamation"></i></p>
+                <p id="important"><i class="fa-solid fa-exclamation" aria-hidden="true"></i>This is a portfolio project demonstration. No real transactions will take place.<i class="fa-solid fa-exclamation" aria-hidden="true"></i></p>
             </div>
         </header>
             
@@ -53,7 +53,7 @@
             <div class="checkout-container visible form-step-one">
                 <form id="checkout-form">
                     <section class="customer-details">
-                        <h3 id="delivery-header"><span id="delivery-header-text">Delivery</span><i id="delivery-header-icon" class="fa-regular fa-truck"></i></h3>
+                        <h3 id="delivery-header"><span id="delivery-header-text">Delivery</span><i id="delivery-header-icon" class="fa-regular fa-truck" aria-hidden="true"></i></h3>
                         <div id="delivery-details" class="form-open">
                             <div class="customer-name">
                                 <label for="firstname">First Name</label>
@@ -62,10 +62,12 @@
                                 <input type="text" id="surname" name="surname" autocomplete="family-name" placeholder="Your last name" required>
                             </div>
                             <div class="customer-address">
-                                <label>Your address</label>
+                                <label for="customer-address">Your address</label>
                                 <input type="text" id="customer-address" name="customer-address" autocomplete="street-address" placeholder="Address Line 1 (e.g., 14 High Street)" required>
                                 <div id="customer-address-group" style="display: flex;">
+                                    <label for="customer-city" class="hidden">Town / City</label>
                                     <input type="text" id="customer-city" name="customer-city" autocomplete="address-level2" placeholder="Town / City" required>
+                                    <label for="customer-postcode" class="hidden">Postcode</label>
                                     <input type="text" id="customer-postcode" name="customer-postcode" autocomplete="postal-code" placeholder="Postcode" required>
                                 </div>
                             </div>
@@ -73,38 +75,38 @@
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" autocomplete="email" placeholder="Your email" required>
                                 <div class="tooltip">
-                                    <button id="next-form" type="button"><i class="fa-solid fa-chevron-right"><span class="tooltip-text">Go to payment options</span></i></button>
+                                    <button id="next-form" type="button" aria-label="Go to payment options"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><span class="tooltip-text">Go to payment options</span></button>
                                 </div>
                             </div>
                         </div>
                     </section>
-                    <section class="payment">
+                    <section class="payment" aria-label="Payment Section">
                         <section class="payment-options">
-                            <h3><span id="payment-header-text">Payment</span><i id="payment-header-icon" class="fa-solid fa-credit-card"></i></h3>
+                            <h3><span id="payment-header-text">Payment</span><i id="payment-header-icon" class="fa-solid fa-credit-card" aria-hidden="true"></i></h3>
                             <div id="payment-inputs">
                                 <div class="tooltip">
-                                    <label><input type="radio" name="payment-type" value="apple" required><span>Apple Pay</span><i class="fa-brands fa-apple"><span class="tooltip-text">Apple Pay</span></i></label>
+                                    <label><input type="radio" name="payment-type" value="apple" required><span>Apple Pay</span><i class="fa-brands fa-apple" aria-hidden="true"></i><span class="tooltip-text">Apple Pay</span></label>
                                 </div>
                                 <div class="tooltip">
-                                    <label><input type="radio" name="payment-type" value="paypal" required><span>PayPal</span><i class="fa-brands fa-paypal"><span class="tooltip-text">Apple Pay</span></i></label>
+                                    <label><input type="radio" name="payment-type" value="paypal" required><span>PayPal</span><i class="fa-brands fa-paypal" aria-hidden="true"></i><span class="tooltip-text">PayPal</span></label>
                                 </div>
                                 <div class="tooltip">
-                                    <label><input type="radio" name="payment-type" value="visa" required><span>Visa</span><i class="fa-brands fa-cc-visa"><span class="tooltip-text">Apple Pay</span></i></label>
+                                    <label><input type="radio" name="payment-type" value="visa" required><span>Visa</span><i class="fa-brands fa-cc-visa" aria-hidden="true"></i><span class="tooltip-text">Visa</span></label>
                                 </div>
                                 <div class="tooltip">
-                                    <label><input type="radio" name="payment-type" value="mastercard" required><span>Mastercard</span><i class="fa-brands fa-cc-mastercard"><span class="tooltip-text">Apple Pay</span></i></label>
+                                    <label><input type="radio" name="payment-type" value="mastercard" required><span>Mastercard</span><i class="fa-brands fa-cc-mastercard" aria-hidden="true"></i><span class="tooltip-text">Mastercard</span></label>
                                 </div>
                                 <div class="tooltip">
-                                    <button id="back-form" type="button"><i class="fa-solid fa-chevron-left"><span class="tooltip-text">Back to delivery</span></i></button>
+                                    <button id="back-form" type="button" aria-label="Back to delivery"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i><span class="tooltip-text">Back to delivery</span></button>
                                 </div>
                             </div>
                         </section>
                         <div id="card-details">
                             <h3 id="card-header">Card Details</h3>
                             <div id="card-inputs">
-                                <label>Name on card</label>
+                                <label for="name">Name on card</label>
                                 <input required type="text" id="name" name="name" autocomplete="cc-name">
-                                <label>Card number</label>
+                                <label for="card-number">Card number</label>
                                 <input required type="text" id="card-number" name="card-number" inputmode="numeric" autocomplete="cc-number" maxlength="19" pattern="[\d\s]+">
                                 <section class="date-code">
                                     <div class="expiry">
@@ -118,7 +120,7 @@
                                 </section>
                             </div>
                             <div class="tooltip">
-                                <button id="back-pay-btn" type="button"><i class="fa-solid fa-chevron-left"><span class="tooltip-text">Back to payment options</span></i></button>
+                                <button id="back-pay-btn" type="button" aria-label="Back to payment options"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i><span class="tooltip-text">Back to payment options</span></button>
                             </div>
                         </div>
                     </section>
@@ -127,7 +129,7 @@
                 <div id="pay"></div>
                 
             </div>
-            <div id="pay-submitted">
+            <div id="pay-submitted" role="region" aria-label="Order Success">
                 <h2>Demo order successful! No actual payment was charged.</h2>
             </div>
 

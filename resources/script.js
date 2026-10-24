@@ -257,7 +257,7 @@ function renderFeaturedGames() {
                     
                     <div class="card-footer" id="price-tag">
                         <div class="tooltip">
-                            <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus"></i><span class="tooltip-text">Add to basket</span></button>
+                            <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
                         </div>
                         <p class="game-price">£${game.price}</p>
                     </div>
@@ -277,7 +277,7 @@ function renderFeaturedGames() {
                 
                     <div class="card-footer" id="price-tag">
                         <div class="tooltip">
-                            <button class="cart-button" data-id="${firstGame.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus"><span class="tooltip-text">Add to basket</span></i></button>
+                            <button class="cart-button" data-id="${firstGame.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
                         </div>
                         <p class="game-price">£${firstGame.price}</p>
                         
@@ -482,15 +482,15 @@ function renderBasket() {
                         <p class="basket-item-price">£${game.price}</p>
                         <div class="basket-item-quantity-controls">
                             <div class="tooltip">
-                                <button class="cart-minus-button" data-id="${game.id}">~<span class="tooltip-text">Decrease quantity</span></button>
+                                <button class="cart-minus-button" data-id="${game.id}" aria-label="Decrease quantity">~<span class="tooltip-text">Decrease quantity</span></button>
                             </div>
                             <p class="basket-item-quantity">${game.quantity}</p>
                             <div class="tooltip">
-                                <button class="cart-plus-button" data-id="${game.id}">+<span class="tooltip-text">Increase quantity</span></button>                    
+                                <button class="cart-plus-button" data-id="${game.id}" aria-label="Increase quantity">+<span class="tooltip-text">Increase quantity</span></button>                    
                             </div>
                         </div>
                         <div class="tooltip">
-                            <button class="remove-from-basket" data-id="${game.id}"><i class="fa-solid fa-trash-can"></i><span class="tooltip-text">Delete from basket</span></button>
+                            <button class="remove-from-basket" data-id="${game.id}" aria-label="Delete from basket"><i class="fa-solid fa-trash-can" aria-hidden="true"></i><span class="tooltip-text">Delete from basket</span></button>
                         </div>
                     </div>
                 </div>
@@ -500,11 +500,11 @@ function renderBasket() {
         const totals = calculateTotals();
         basketBottom.style.display = 'block';
         basketHeader.style.opacity = '1';
-        basketSummary.innerHTML = `<h2>Order Summary</h3>
-        <div id="basket-totals">
-            <h4>Subtotal<span class="checkout-sub-total">£${totals.basketTotalPrice.toFixed(2)}</span></h4>
-            <h4>Delivery Cost<span class=delivery-fee>${totals.deliveryFee === 0 ? '£0' : `£${totals.deliveryFee.toFixed(2)}`}</span></h4>
-            <h3>Order Total<span>£${totals.grandTotal.toFixed(2)}</span></h3>
+        basketSummary.innerHTML = `<h2>Order Summary</h2>
+        <div id="basket-totals" role="region" aria-label="Order Totals">
+            <h4>Subtotal <span class="checkout-sub-total">£${totals.basketTotalPrice.toFixed(2)}</span></h4>
+            <h4>Delivery Cost <span class="delivery-fee">${totals.deliveryFee === 0 ? '£0' : `£${totals.deliveryFee.toFixed(2)}`}</span></h4>
+            <h3>Order Total <span>£${totals.grandTotal.toFixed(2)}</span></h3>
         </div>`
     };
     const removeButtons = document.querySelectorAll('.remove-from-basket');
@@ -530,9 +530,9 @@ function renderBasket() {
     
     if (basket.length !== 0) {
         updateBasketTotal();
-        checkoutBtnContainer.innerHTML = `<button id="checkout-btn"><a href="checkout.html">Checkout Now</button>`;
+        checkoutBtnContainer.innerHTML = `<a href="checkout.html" id="checkout-btn">Checkout Now</a>`;
     
-        emptyBasketContainer.innerHTML = '<button id="empty-basket-button">Empty Basket</button>';
+        emptyBasketContainer.innerHTML = '<button id="empty-basket-button" aria-label="Empty basket">Empty Basket</button>';
 
         const emptyBasketBtn = document.getElementById('empty-basket-button');
         emptyBasketBtn.addEventListener('click', (e) => {
@@ -647,18 +647,19 @@ function renderCheckoutPage() {
         const totals = calculateTotals();
         tableRows = basket.map((game) => `
         <tr>
-            <td class="basket-item-name" id="checkout-item-name">${game.title}</td>
+            <td class="basket-item-name">${game.title}</td>
             <td class="basket-item-price">£${game.price}</td>
             <td class="basket-item-quantity">${game.quantity}</td>
+        </tr>
         `).join('');
         
         checkoutSummaryContainer.innerHTML = `<h3>Order Summary</h3>
         <table class="checkout-table">
             <thead>
                 <tr>
-                    <th class="game-title-header">Game Title</th>
-                    <th>Price</th>
-                    <th>Amount</th>
+                    <th scope="col" class="game-title-header">Game Title</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Amount</th>
                 </tr>
             </thead>
             <tbody>
@@ -668,7 +669,7 @@ function renderCheckoutPage() {
                 <tr class="table-footer-first">
                     <td colspan="2">Subtotal</td>
                     <td>£<span class="checkout-sub-total">${totals.basketTotalPrice.toFixed(2)}</span></td>
-                </tr
+                </tr>
                 <tr>
                     <td colspan="2">Delivery Cost</td>
                     <td>${totals.deliveryFee === 0 ? '£0' : `£${totals.deliveryFee.toFixed(2)}`}</td>
@@ -933,19 +934,19 @@ function renderGamePage(games = loadSearchQuery()) {
             
             if (searchMatches.length === 0) {
                 searchResults.innerHTML = `
-                    <button class="all-games-btn">All Games</button>
-                    <h2>No results found for "${searchQuery}"</h2>`;
+                    <button class="all-games-btn" aria-label="Show all games">All Games</button>
+                    <h2 role="status" aria-live="polite">No results found for "${searchQuery}"</h2>`;
                 filter.style.display = 'none';
             } else {
                 gamePage.innerHTML = `
-                    <div id="no-matching-filters">
+                    <div id="no-matching-filters" role="status" aria-live="polite">
                         <p>No games match your current filters.</p>
                     </div>`;
             }
         } else {
             gamePage.innerHTML = `
-                <div id="no-matching-filters">
-                    <button class="all-games-btn">All Games</button>
+                <div id="no-matching-filters" role="status" aria-live="polite">
+                    <button class="all-games-btn" aria-label="Show all games">All Games</button>
                     <p>No games found matching your filters.</p>
                 </div>`;
         };
@@ -963,12 +964,12 @@ function renderGamePage(games = loadSearchQuery()) {
                         
                         <img class="game-image" src="${game.image}" alt="${game.alt}">
                         <p class="game-description">${game.description}</p></a>
-                        <button class="game-info">View Info<i class="fa-solid fa-info"></i></button>
+                        <button class="game-info">View Info<i class="fa-solid fa-info" aria-hidden="true"></i></button>
                     </div>  
                     <div class="card-footer">
                         <p class="game-price">£${game.price}</p>
                         <div class="tooltip">
-                            <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus"><span class="tooltip-text">Add to basket</span></i></button>
+                            <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
                         </div>
                     </div>
                 </div>
@@ -990,11 +991,11 @@ function renderGamePage(games = loadSearchQuery()) {
             if (gameInfo.style.display === 'none' || gameInfo.style.display === '') {
                 gameInfo.style.display = 'flex';
                 btn.style.position = 'relative';
-                btn.innerHTML = `Close<i class="fa-solid fa-xmark"></i>`;
+                btn.innerHTML = `Close<i class="fa-solid fa-xmark" aria-hidden="true"></i>`;
             } else {
                 gameInfo.style.display = 'none';
                 btn.style.position = 'absolute';
-                btn.innerHTML = `View Info<i class="fa-solid fa-info"></i>`;
+                btn.innerHTML = `View Info<i class="fa-solid fa-info" aria-hidden="true"></i>`;
             };
         
         });
@@ -1167,7 +1168,7 @@ if (genreContainer) {
 
 function updateGenreClearButton() {
     if (genreContainer.querySelector('input[type="checkbox"]:checked')) {
-        clearGenreBtn.innerHTML = `<button>Clear<i class="fa-solid fa-x"></i></button>`;
+        clearGenreBtn.innerHTML = `<button>Clear<i class="fa-solid fa-x" aria-hidden="true"></i></button>`;
     } else {
         clearGenreBtn.innerHTML = '';
     };
@@ -1205,7 +1206,7 @@ if (gamesMainBody) {
 
 function updatePriceClearButton() {
     if (priceContainer.querySelector('input[type="checkbox"]:checked')) {
-        clearPriceBtn.innerHTML = `<button>Clear<i class="fa-solid fa-x"></i></button>`;
+        clearPriceBtn.innerHTML = `<button>Clear<i class="fa-solid fa-x" aria-hidden="true"></i></button>`;
     } else {
         clearPriceBtn.innerHTML = '';
     };
@@ -1287,7 +1288,7 @@ searchbarInput.addEventListener('input', (searchGames) => {
 
         
         if (filteredGames.length === 0) {
-            searchDropdown.innerHTML = `<p id="empty-search">No games found.</p>`
+            searchDropdown.innerHTML = `<p id="empty-search" role="status" aria-live="polite">No games found.</p>`
 
         } else {
             let dropdownHTML = '';
@@ -1305,7 +1306,7 @@ searchbarInput.addEventListener('input', (searchGames) => {
                 </a>`;
             });
             searchDropdown.innerHTML = dropdownHTML;
-        };
+        }
     };
 });
 

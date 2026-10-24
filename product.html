@@ -12,31 +12,31 @@
     <body>
         <section class="top-bar-container">
             <div class="top-bar">
-                <nav>
+                <nav aria-label="Main Navigation">
                     <ul class="nav-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="games.html">Games</a></li>
                     </ul>
                 </nav>
                 <a href="index.html"><img class="logo" src="./resources/images/GGlogo.png" alt="Game Galaxy Logo"></a>
-                 <div class="search-bar">
-                    <input type="text" id="search-input" placeholder="Search for games...">
+                 <div class="search-bar" role="search">
+                    <input type="text" id="search-input" placeholder="Search for games..." aria-label="Search for games">
                     <div class="tooltip">
-                        <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i><span class="tooltip-text">Search</span></button>
+                        <button id="search-button" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span class="tooltip-text">Search</span></button>
                     </div>
                     <div class="tooltip">
-                        <button id="open-searchbar"><i class="fa-solid fa-magnifying-glass"></i><span class="tooltip-text">Open Searchbar</span></button>
+                        <button id="open-searchbar" aria-label="Open Searchbar"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span class="tooltip-text">Open Searchbar</span></button>
                     </div>
                 </div>
                 <div class="search-dropdown"></div>
                 <div class="basket">
                     <div class="basket-total"></div>
                     <div class="tooltip">
-                        <a href="basket.html"><i class="fa-solid fa-cart-shopping"></i><span id="basket-count">0</span><span class="tooltip-text">Go to basket</span></a>
+                        <a href="basket.html" aria-label="Go to basket"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span id="basket-count">0</span><span class="tooltip-text">Go to basket</span></a>
                     </div>
                 </div>
             </div>
-            <div id="discount">
+            <div id="discount" role="region" aria-label="Promotion">
                 <p>!! Free delivery over £80 !!</p>
             </div>
         </section>
@@ -44,10 +44,10 @@
         <header id="product-header">
             <h1 class="game-heading"></h1>
             <p class="game-genre"></p>
-            <button id="all-games">All Games</button>
+            <button id="all-games" aria-label="View all games">All Games</button>
         </header>
         
-        <div class="product-main-body">
+        <div class="product-main-body" aria-label="Product details">
             
         </div>
 

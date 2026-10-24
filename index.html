@@ -12,31 +12,31 @@
     <body id="home-body">
         <section class="top-bar-container">
             <div class="top-bar">
-                <nav>
+                <nav aria-label="Main Navigation">
                     <ul class="nav-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="games.html">Games</a></li>
                     </ul>
                 </nav>
                 <a href="index.html"><img class="logo" src="./resources/images/GGlogo.png" alt="Game Galaxy Logo"></a>
-                <div class="search-bar">
-                    <input type="text" id="search-input" placeholder="Search for games...">
+                <div class="search-bar" role="search">
+                    <input type="text" id="search-input" placeholder="Search for games..." aria-label="Search for games">
                     <div class="tooltip">
-                        <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i><span class="tooltip-text">Search</span></button>
+                        <button id="search-button" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span class="tooltip-text">Search</span></button>
                     </div>
                     <div class="tooltip">
-                        <button id="open-searchbar"><i class="fa-solid fa-magnifying-glass"></i><span class="tooltip-text">Open Searchbar</span></button>
+                        <button id="open-searchbar" aria-label="Open Searchbar"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span class="tooltip-text">Open Searchbar</span></button>
                     </div>
                 </div>
                 <div class="search-dropdown"></div>
                 <div class="basket">
                     <div class="basket-total"></div>
                     <div class="tooltip">
-                        <a href="basket.html"><i class="fa-solid fa-cart-shopping"></i><span id="basket-count">0</span><span class="tooltip-text">Go to basket</span></a>
+                        <a href="basket.html" aria-label="Go to basket"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span id="basket-count">0</span><span class="tooltip-text">Go to basket</span></a>
                     </div>
                 </div>
             </div>
-            <div id="discount">
+            <div id="discount" role="region" aria-label="Promotion">
                 <p>!! Free delivery over £80 !!</p>
             </div>
         </section>
@@ -45,31 +45,31 @@
             <div id="top-games-title">
                 <h3>This week's top games</h3>
             </div>
-            <div id="hero-carousel">
-                <button class="previous-slide slide-btn"><i class="fa-solid fa-chevron-left"></i></button>
+            <div id="hero-carousel" role="region" aria-label="Featured Games Carousel">
+                <button class="previous-slide slide-btn" aria-label="Previous slide"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
                 <div id="carousel-track" class="featured">
                     
                 </div>
-                <button class="next-slide slide-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="next-slide slide-btn" aria-label="Next slide"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
                 <div id="carousel-indicators"></div>
             </div>
             <section class="features-bar">
                 <div class="feature-item">
-                    <i class="fa-solid fa-truck-fast"></i>
+                    <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
                     <div class="feature-text">
                         <h3>Free Delivery</h3>
                         <p>On all orders over £80</p>
                     </div>
                 </div>
                 <div class="feature-item">
-                    <i class="fa-solid fa-bolt"></i>
+                    <i class="fa-solid fa-bolt" aria-hidden="true"></i>
                     <div class="feature-text">
                         <h3>Instant Dispatch</h3>
                         <p>Fast processing on every order</p>
                     </div>
                 </div>
                 <div class="feature-item">
-                    <i class="fa-solid fa-shield-halved"></i>
+                    <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
                     <div class="feature-text">
                         <h3>Secure Checkout</h3>
                         <p>100% safe payment processing</p>
@@ -81,19 +81,19 @@
                 <h2>Browse by Genre</h2>
                 <div class="genre-grid">
                     <a href="games.html" class="genre-card" id="action-genre">
-                        <i class="fa-solid fa-gamepad"></i>
+                        <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
                         <span>Action-Adventure</span>
                     </a>
                     <a href="games.html" class="genre-card" id="rpg-genre">
-                        <i class="fa-solid fa-dragon"></i>
+                        <i class="fa-solid fa-dragon" aria-hidden="true"></i>
                         <span>RPG</span>
                     </a>
                     <a href="games.html" class="genre-card" id="platform-genre">
-                        <i class="fa-solid fa-cubes"></i>
+                        <i class="fa-solid fa-cubes" aria-hidden="true"></i>
                         <span>Platformer</span>
                     </a>
                     <a href="games.html" class="genre-card" id="open-genre">
-                        <i class="fa-solid fa-earth-americas"></i>
+                        <i class="fa-solid fa-earth-americas" aria-hidden="true"></i>
                         <span>Open World</span>
                     </a>
                 </div>
@@ -102,7 +102,7 @@
             <section class="games-explore">
                 <h2>Looking for something specific?</h2>
                 <p>Explore our full collection of games.</p>
-                <a href="games.html" class="explore-button">Explore All Games <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="games.html" class="explore-button">Explore All Games <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
             </section>
         </div>
         <footer>
