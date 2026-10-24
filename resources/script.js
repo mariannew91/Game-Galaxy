@@ -256,7 +256,9 @@ function renderFeaturedGames() {
                     <img class="game-image" id="featured-image" src="${game.featimage}" alt="${game.alt}"></a>
                     
                     <div class="card-footer" id="price-tag">
-                        <button class="cart-button" data-id="${game.id}"><i class="fa-solid fa-cart-plus"></i></button>
+                        <div class="tooltip">
+                            <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus"></i><span class="tooltip-text">Add to basket</span></button>
+                        </div>
                         <p class="game-price">£${game.price}</p>
                     </div>
                 </div>
@@ -274,7 +276,9 @@ function renderFeaturedGames() {
                     <img class="game-image" id="featured-image" src="${firstGame.featimage}" alt="${firstGame.alt}"></a>
                 
                     <div class="card-footer" id="price-tag">
-                        <button class="cart-button" data-id="${firstGame.id}"><i class="fa-solid fa-cart-plus"></i></button>
+                        <div class="tooltip">
+                            <button class="cart-button" data-id="${firstGame.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus"><span class="tooltip-text">Add to basket</span></i></button>
+                        </div>
                         <p class="game-price">£${firstGame.price}</p>
                         
                     </div>
@@ -477,11 +481,17 @@ function renderBasket() {
                     <div class="basket-price-amount">
                         <p class="basket-item-price">£${game.price}</p>
                         <div class="basket-item-quantity-controls">
-                            <button class="cart-minus-button" data-id="${game.id}">~</button>
+                            <div class="tooltip">
+                                <button class="cart-minus-button" data-id="${game.id}">~<span class="tooltip-text">Decrease quantity</span></button>
+                            </div>
                             <p class="basket-item-quantity">${game.quantity}</p>
-                            <button class="cart-plus-button" data-id="${game.id}">+</button>                    
+                            <div class="tooltip">
+                                <button class="cart-plus-button" data-id="${game.id}">+<span class="tooltip-text">Increase quantity</span></button>                    
+                            </div>
                         </div>
-                        <button class="remove-from-basket" data-id="${game.id}"><i class="fa-solid fa-trash-can"></i></button>
+                        <div class="tooltip">
+                            <button class="remove-from-basket" data-id="${game.id}"><i class="fa-solid fa-trash-can"></i><span class="tooltip-text">Delete from basket</span></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -957,7 +967,9 @@ function renderGamePage(games = loadSearchQuery()) {
                     </div>  
                     <div class="card-footer">
                         <p class="game-price">£${game.price}</p>
-                        <button class="cart-button" data-id="${game.id}"><i class="fa-solid fa-cart-plus"></i></button>
+                        <div class="tooltip">
+                            <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus"><span class="tooltip-text">Add to basket</span></i></button>
+                        </div>
                     </div>
                 </div>
             `
