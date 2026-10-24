@@ -2022,7 +2022,7 @@ input[type=text]:focus {
         height: 65px;
     }
 
-    .checkout-container.form-step-three .payment-options span:not(:last-child) {
+    .checkout-container.form-step-three .payment-options span {
         display: none;
     }
 
