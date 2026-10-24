@@ -705,7 +705,7 @@ footer p {
     position: relative;
 }
 
-#basket-header {
+#basket-header h1 {
     display: inline-flex;
     flex-direction: row;
     text-align: center;

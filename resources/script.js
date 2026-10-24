@@ -5,10 +5,12 @@ const basketItemsContainer = document.querySelector('.basket-items');
 const basketTotalContainer = document.querySelectorAll('.basket-total');
 const checkoutBtnContainer = document.getElementById('checkout-btn-container');
 const emptyBasketContainer = document.querySelector('.empty-basket');
+const basketBottom = document.getElementById('basket-bottom');
 const gamePage = document.querySelector('.for-sale-games');
 const checkoutPage = document.getElementById('checkout-main-body');
 const checkoutSummaryContainer = document.querySelector('.checkout-summary')
 const payButton = document.getElementById('pay');
+const basketHeader = document.getElementById('basket-header');
 const basketSummary = document.getElementById('basket-summary');
 const checkoutContainer = document.querySelector('.checkout-container');
 const basketEmptied = document.querySelector('.basket-emptied');
@@ -39,6 +41,7 @@ const productBackButton = document.getElementById('all-games');
 let countdown;
 let toastTimer;
 let previousBasket;
+let isUserClick = false;
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -295,6 +298,7 @@ function updateCarousel() {
 };
 if (homePage) {
     nextSlide.addEventListener('click', (e) => {
+        isUserClick = e.isTrusted;
         const slides = document.querySelectorAll('.carousel-slide');
 
         if (currentIndex < slides.length - 1) {
@@ -327,6 +331,7 @@ if (homePage) {
     });
 
     previousSlide.addEventListener('click', (e) => {
+        isUserClick = e.isTrusted;
         const slides = document.querySelectorAll('.carousel-slide');
         if (currentIndex > 0) {
             currentIndex -= 1;
@@ -448,15 +453,21 @@ function updateBasketTotal() {
         if (basketMainBody) {
             checkoutBtnContainer.innerHTML = '';
             emptyBasketContainer.innerHTML = '';
-        }
-    }
+            basketBottom.style.display = 'none';
+            basketHeader.style.opacity = '0';
+        };
+    };
 };
 
 
 function renderBasket() {
+    updateBasketTotal();
     if (basket.length === 0) {
         basketItemsContainer.innerHTML = '<p>Your basket is empty.</p>';
-        totalContainer.style.display = 'none';
+        if (totalContainer) {
+            totalContainer.style.display = 'none';
+        };
+        basketHeader.style.opacity = '0';
     } else {
         basketItemsContainer.innerHTML = basket.map((game) => {
             return `<div class="basket-item">
@@ -477,7 +488,8 @@ function renderBasket() {
             `
         }).join('');
         const totals = calculateTotals();
-        
+        basketBottom.style.display = 'block';
+        basketHeader.style.opacity = '1';
         basketSummary.innerHTML = `<h2>Order Summary</h3>
         <div id="basket-totals">
             <h4>Subtotal<span class="checkout-sub-total">£${totals.basketTotalPrice.toFixed(2)}</span></h4>
@@ -498,8 +510,8 @@ function renderBasket() {
             setTimeout(() => {
                 renderBasket();
                 if (basket.length === 0) {
-                    const basketBottom = document.getElementById('basket-bottom');
                     basketBottom.innerHTML = '';
+                    
                 }
             }, 300);
         });
@@ -521,7 +533,7 @@ function renderBasket() {
             localStorage.setItem('user-basket', JSON.stringify(basket));
             updateBasketCount();
 
-            showToast()
+            showToast();
 
             let timerSeconds = 5;
             const countdownTimer = document.getElementById('countdown');
@@ -533,20 +545,22 @@ function renderBasket() {
                     countdownTimer.textContent = `${timerSeconds}s`;
                     if (timerSeconds <= 0) {
                         clearInterval(countdown);
-                    }
+                    };
     
                 }, 1000)
-            }
+            };
 
             toastTimer = setTimeout(() => {
                 hideToast();
                 previousBasket = null;
                 clearInterval(countdown);
+                basketBottom.innerHTML = '';
+                basketBottom.style.display = 'none';
                 renderBasket();
             }, 5000);
             
-        }) 
-    } 
+        });
+    }; 
 
     const plusButtons = document.querySelectorAll('.cart-plus-button');
     plusButtons.forEach((button) => {
@@ -1305,6 +1319,7 @@ searchButton.addEventListener('click', () => {
 openSearchbar.addEventListener('click', (e) => {
     e.stopPropagation();
     if (window.matchMedia('(max-width: 600px)').matches) {
+        
         openSearchbar.classList.toggle('closed');
         searchbarInput.classList.toggle('open');
         searchButton.classList.toggle('open');
@@ -1333,14 +1348,32 @@ function performSearch() {
 /* Global event listeners */
 
 document.addEventListener('click', (event) => {
+    if (isUserClick === false && event.target.closest('#hero-carousel')) {
+        return;
+    };
+    if (isUserClick) {
+        searchDropdown.style.display = 'none';
+        isUserClick = false;
+        return;
+    }
     if (!searchbarInput.contains(event.target) && !searchDropdown.contains(event.target)) {
         searchDropdown.style.display = 'none';
-    }
-    
-})
+    };
+    isUserClick = false;
+});
 
 document.addEventListener('click', (event) => {
     if (window.matchMedia('(max-width: 600px)').matches) {
+        if (isUserClick === false && event.target.closest('#hero-carousel')) {
+            return;
+        };
+        if (isUserClick) {
+            searchbarInput.classList.remove('open');
+            searchButton.classList.remove('open');
+            openSearchbar.classList.remove('closed');
+            isUserClick = false;
+            return;
+        };
         if (!searchbarInput.contains(event.target) && !searchDropdown.contains(event.target)) {
             searchbarInput.classList.remove('open');
             searchButton.classList.remove('open');
