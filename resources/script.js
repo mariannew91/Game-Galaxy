@@ -246,10 +246,11 @@ function renderFeaturedGames() {
     const featuredGames = gameData.filter(checkGameFeatured);
     function checkGameFeatured(game) {
         return game.featured;
-    }
-
+    };
     let homePageFeaturedGames = '';
     featuredGames.forEach((game) => {
+        const basketItem = basket.find((item) => item.id === game.id);
+        const quantity = basketItem ? basketItem.quantity : 0;
         homePageFeaturedGames += `
         <div class="carousel-slide">
             <div class="featured-game">
@@ -257,8 +258,9 @@ function renderFeaturedGames() {
                     <img class="game-image" id="featured-image" src="${game.featimage}" alt="${game.alt}"></a>
                     
                     <div class="card-footer" id="price-tag">
-                        ${game.quantity >= 1 ? ` <h4>Game in basket</h4> 
-                                <p class="game-price">£${game.price.toFixed(2)}</p> `: `
+                        ${quantity >= 1 ? ` <div class="tooltip">
+                            <h4>In basket</h4>
+                        </div> `: `
                         <div class="tooltip">
                             <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
                         </div>

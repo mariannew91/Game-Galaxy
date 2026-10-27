@@ -279,6 +279,7 @@ header p {
 .main-body {
     text-align: center;
     min-height: 100vh;
+    margin-bottom: 200px;
 }
 
 #top-games-title {
@@ -393,6 +394,12 @@ header p {
     font-family: var(--font-heading) !important;
 }
 
+.featured-game #price-tag h4 {
+    font-size: clamp(14px, 3vw, 17px);
+    padding: 0;
+    margin: 0;
+}
+
 .featured-game .game-price {
     padding: 0;
     margin: 0;
@@ -420,6 +427,7 @@ header p {
     font-weight: 100;
     bottom: -30px;
     left: 0;
+    height: fit-content;
     padding: 6px 8px;
     color: var(--text-main);
     border-radius: 4px;
@@ -742,12 +750,8 @@ button {
     opacity: 1;
 }
 
-#slide-up-text a {
-    font-family: var(--font-body);
-}
-
-#slide-up-text a:hover {
-    color: var(--accent-pink-hover);
+#slide-up-text p {
+    padding: 0 10px;;
 }
 
 /* Footer */
@@ -782,6 +786,7 @@ footer p {
     margin: 0 auto;
     width: 100%;
     justify-content: center;
+    margin-bottom: 300px;
 }
 
 .product-main-body img {
@@ -1799,6 +1804,11 @@ input[type=text]:focus {
         opacity: 1;
         height: fit-content;
     }
+
+    .tooltip:hover .tooltip-text {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 /* Targets devices with a mouse/trackpad pointer */
@@ -2551,7 +2561,7 @@ input[type=text]:focus {
     }
 
     #open-searchbar {
-        right: 120px;
+        right: 125px;
     }
 
     .logo {
@@ -2575,16 +2585,14 @@ input[type=text]:focus {
 }
 
 @media (max-width: 350px) {
-    #open-searchbar {
-        right: 117px;
-    }
+   
 
     li a {
         font-size: 1.05rem;
     }
 
     .logo {
-        width: 45px;
+        width: 40px;
     }
 
     #filter-buttons {
