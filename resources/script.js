@@ -38,6 +38,7 @@ const paymentOptionsSpans = document.querySelectorAll('#payment-inputs span');
 const gamesMainBody = document.getElementById('games-page-body');
 const productPage = document.querySelector('.product-main-body');
 const productBackButton = document.getElementById('all-games');
+const basketMainBody = document.getElementById('basket-main-body');
 let countdown;
 let toastTimer;
 let previousBasket;
@@ -256,10 +257,12 @@ function renderFeaturedGames() {
                     <img class="game-image" id="featured-image" src="${game.featimage}" alt="${game.alt}"></a>
                     
                     <div class="card-footer" id="price-tag">
+                        ${game.quantity >= 1 ? ` <h4>Game in basket</h4> 
+                                <p class="game-price">£${game.price.toFixed(2)}</p> `: `
                         <div class="tooltip">
                             <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
                         </div>
-                        <p class="game-price">£${game.price}</p>
+                        <p class="game-price">£${game.price.toFixed(2)}</p> `}
                     </div>
                 </div>
             </div>
@@ -279,7 +282,7 @@ function renderFeaturedGames() {
                         <div class="tooltip">
                             <button class="cart-button" data-id="${firstGame.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
                         </div>
-                        <p class="game-price">£${firstGame.price}</p>
+                        <p class="game-price">£${firstGame.price.toFixed(2)}</p>
                         
                     </div>
                 </div>  
@@ -453,7 +456,7 @@ function updateBasketTotal() {
         basketTotalContainer.forEach((container) => {
             container.innerHTML = '';
         });
-        const basketMainBody = document.getElementById('basket-main-body');
+        
         if (basketMainBody) {
             checkoutBtnContainer.innerHTML = '';
             emptyBasketContainer.innerHTML = '';
@@ -507,25 +510,6 @@ function renderBasket() {
             <h3>Order Total <span>£${totals.grandTotal.toFixed(2)}</span></h3>
         </div>`
     };
-    const removeButtons = document.querySelectorAll('.remove-from-basket');
-    removeButtons.forEach((button) => {
-        button.addEventListener('click', (e) => {
-                const gameIdToRemove = Number(e.currentTarget.dataset.id);
-                basket = basket.filter((game) => game.id !== gameIdToRemove);
-                localStorage.setItem('user-basket', JSON.stringify(basket));
-                updateBasketCount();
-                updateBasketTotal();
-            const itemContainer = e.currentTarget.closest('.basket-item');
-            itemContainer.classList.add('close');
-            setTimeout(() => {
-                renderBasket();
-                if (basket.length === 0) {
-                    basketBottom.innerHTML = '';
-                    
-                }
-            }, 300);
-        });
-    });
 
     
     if (basket.length !== 0) {
@@ -571,6 +555,8 @@ function renderBasket() {
             
         });
     }; 
+
+    removeGameBtn();
 
     const plusButtons = document.querySelectorAll('.cart-plus-button');
     plusButtons.forEach((button) => {
@@ -956,8 +942,10 @@ function renderGamePage(games = loadSearchQuery()) {
         return;
     } else {
         games.forEach((game) => {
+            const basketItem = basket.find((item) => item.id === game.id);
+            const quantity = basketItem ? basketItem.quantity : 0;
             gamesForSale += `
-                <div class="game-shop-card">
+                <div class="game-shop-card" style="${quantity >= 1 ? 'background-color: #39466c;' : ''}">
                     <h3 class="game-title"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'search-return')">${game.title}</a></h3>
                     <div class="game-card"><a href="product.html?gameId=${game.id}" onclick="sessionStorage.setItem('navSource', 'search-return')">
                         
@@ -967,16 +955,30 @@ function renderGamePage(games = loadSearchQuery()) {
                         <button class="game-info">View Info<i class="fa-solid fa-info" aria-hidden="true"></i></button>
                     </div>  
                     <div class="card-footer">
-                        <p class="game-price">£${game.price}</p>
-                        <div class="tooltip">
-                            <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
-                        </div>
+                        <p class="game-price">£${game.price.toFixed(2)}</p>
+                        ${quantity >= 1 ? `
+                            <div class="footer-game-added" style="display: flex;">
+                                <div class="tooltip">
+                                    <button class="remove-from-basket" data-id="${game.id}" aria-label="Delete from basket"><i class="fa-solid fa-trash-can" aria-hidden="true"></i><span class="tooltip-text">Delete from basket</span></button>
+                                </div>
+                                <p class="basket-item-quantity">${quantity}</p>
+                                <div class="tooltip">
+                                    <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
+                                </div>
+                            </div>
+                        ` : `
+                            <div class="tooltip">
+                                <button class="cart-button" data-id="${game.id}" aria-label="Add to basket"><i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span class="tooltip-text" aria-hidden="true">Add to basket</span></button>
+                            </div>
+                        `}
                     </div>
                 </div>
             `
         });
         gamePage.innerHTML = gamesForSale;
+        removeGameBtn();
     };
+    
 
     cartButtonListener();
     if (gamesMainBody) {
@@ -1244,29 +1246,68 @@ if (clearPriceBtn) {
 };
 
 /* Add game to basket */
-
+const slideUpConfirmation = document.getElementById('slide-up');
 function cartButtonListener() {
     const cartButtons = document.querySelectorAll('.cart-button');
 
     cartButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
-            
             const gameDataInfo = gameData.find((game) => game.id === Number(e.currentTarget.dataset.id));
-                
+            
+            let activeItem;
             const existingGameIndex = basket.findIndex((game) => game.id === gameDataInfo.id);
+
             if (existingGameIndex > -1) {
                 basket[existingGameIndex].quantity += 1;
+                activeItem = basket[existingGameIndex];
             } else {
                 gameDataInfo.quantity = 1;
-                basket.push(gameDataInfo);  
-            }
-
+                basket.push(gameDataInfo);
+                activeItem = gameDataInfo;
+            };
+            const slideUpText = document.getElementById('slide-up-text');
+            slideUpText.innerHTML = `<p>${gameDataInfo.title} added to basket</p>`;
+            slideUpConfirmation.classList.add('show');
+            setTimeout(() => {
+                slideUpConfirmation.classList.remove('show');
+            }, 2000);
             localStorage.setItem('user-basket', JSON.stringify(basket));
             updateBasketCount();
             updateBasketTotal();
+            renderGamePage()
         });
     });
 };
+
+/* Remove game from basket */
+
+function removeGameBtn() {
+    const removeButtons = document.querySelectorAll('.remove-from-basket');
+    removeButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const gameIdToRemove = Number(e.currentTarget.dataset.id);
+            basket = basket.filter((game) => game.id !== gameIdToRemove);
+            localStorage.setItem('user-basket', JSON.stringify(basket));
+            updateBasketCount();
+            updateBasketTotal();
+            if (basketMainBody) {
+                const itemContainer = e.currentTarget.closest('.basket-item');
+                itemContainer.classList.add('close');
+            
+                setTimeout(() => {
+                    renderBasket();
+                    if (basket.length === 0) {
+                        basketBottom.innerHTML = '';
+                        
+                    }
+                }, 300);
+            } else {
+                renderGamePage()
+            }
+        });
+    });
+};
+
 
 /* Search bar */
 

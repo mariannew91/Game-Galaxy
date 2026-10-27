@@ -8,7 +8,7 @@
 
     /* Accent / Brand Colors */
     --accent-pink: #ff2a85;      /* Vibrant Hot Pink for buttons & badges */
-    --accent-pink-hover: #e01f70;/* Darker pink for button hover states */
+    --accent-pink-hover: #ce1f69;/* Darker pink for button hover states */
     --accent-glow: rgba(255, 42, 133, 0.25); /* Subtle pink glow for active borders */
 
     /* Typography & Text */
@@ -432,7 +432,7 @@ header p {
 .tooltip:hover .tooltip-text {
     opacity: 1;
     visibility: visible;
-    transition-delay: 0.4s;
+    transition-delay: 0.5s;
 }
 
 /* Home Page Body */ 
@@ -646,6 +646,7 @@ header p {
     align-items: center;
     margin-top: auto;
     padding: 0 10px;
+    gap: 3px;
 }
 
 .cart-button {
@@ -657,6 +658,32 @@ header p {
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 1.3rem;
+}
+
+.footer-game-added {
+    display: none;
+    align-items: center;
+    gap: 5px;
+}
+
+.footer-game-added p {
+            font-size: clamp(14px, 3vw, 17px);
+}
+
+.footer-game-added button {
+    padding: 0;
+}
+
+.footer-game-added i {
+    font-size: 1.2rem;
+}
+
+.footer-game-added .cart-button .tooltip-text {
+    bottom: -53px;
+}
+
+.footer-game-added .remove-from-basket .tooltip-text {
+    bottom: -70px;
 }
 
 #product-cart-btn {
@@ -679,6 +706,47 @@ button {
 }
 
 .cart-button:hover {
+    color: var(--accent-pink-hover);
+}
+
+.cart-button .tooltip-text {
+    bottom: -40px;
+}
+
+/* Slide up confirmation */
+
+#slide-up {
+    position: fixed;
+    bottom: 60px;
+    width: 100%;
+    z-index: 99;
+    transform: translateY(100px);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+
+#slide-up-text {
+    background-color: #8d99aee8;
+    width: 600px;
+    max-width: 90%;
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 14vw, 70px);
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+#slide-up.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#slide-up-text a {
+    font-family: var(--font-body);
+}
+
+#slide-up-text a:hover {
     color: var(--accent-pink-hover);
 }
 
@@ -753,6 +821,7 @@ footer p {
 
 #basket-main-body {
     position: relative;
+    margin-bottom: 250px;
 }
 
 #basket-header h1 {
@@ -842,9 +911,9 @@ footer p {
     display: flex;
     flex-direction: row;
     max-width: 160px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: end;
-    min-width: 160px;
+    min-width: 165px;
     align-items: center;
 }
 
@@ -2412,6 +2481,7 @@ input[type=text]:focus {
         align-items: center;
         text-align: center;
         min-width: unset;
+        flex-wrap: wrap;
     }
 
     .basket-item-quantity-controls {
