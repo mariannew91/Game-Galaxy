@@ -270,6 +270,7 @@ function renderFeaturedGames() {
             </div>
         </div>
         `;
+        cartButtonListener();
     });
 
     if (featuredGames.length > 0) {
@@ -291,6 +292,7 @@ function renderFeaturedGames() {
             </div>
         </div>
         `;
+        cartButtonListener();
     };
 
     topGames.innerHTML = homePageFeaturedGames;
@@ -1276,7 +1278,8 @@ function cartButtonListener() {
             localStorage.setItem('user-basket', JSON.stringify(basket));
             updateBasketCount();
             updateBasketTotal();
-            renderGamePage()
+            renderGamePage();
+            renderFeaturedGames();
         });
     });
 };
