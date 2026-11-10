@@ -1251,6 +1251,9 @@ document.addEventListener('click', (event) => {
             const gameInfo = card.querySelector('.game-description');
             if (gameInfo.style.display === 'flex' && !card.contains(event.target)) {
                 gameInfo.style.display = 'none';
+
+                btn.style.position = 'absolute';
+                btn.innerHTML = `View Info<i class="fa-solid fa-info" aria-hidden="true"></i>`;
             };
         });
     };

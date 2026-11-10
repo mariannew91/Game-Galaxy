@@ -1821,6 +1821,7 @@ input[type=text]:focus {
 
     .game-info {
         display: flex;
+        z-index: 2;
     }
 
     .game-description {
@@ -1829,6 +1830,10 @@ input[type=text]:focus {
         color: white;
         opacity: 1;
         height: fit-content;
+    }
+
+    .game-info i {
+        pointer-events: none;
     }
 
     .tooltip:hover .tooltip-text {
