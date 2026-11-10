@@ -270,7 +270,6 @@ function renderFeaturedGames() {
             </div>
         </div>
         `;
-        cartButtonListener();
     });
 
     if (featuredGames.length > 0) {
@@ -292,7 +291,6 @@ function renderFeaturedGames() {
             </div>
         </div>
         `;
-        cartButtonListener();
     };
 
     topGames.innerHTML = homePageFeaturedGames;
@@ -399,7 +397,7 @@ if (selectedGame) {
         <div class="product-details">
             <p class="product-description">${selectedGame.description}</p>
             <div class="buy-product">
-                <p class="product-price">£${selectedGame.price}</p>
+                <p class="product-price">£${selectedGame.price.toFixed(2)}</p>
                 <button class="cart-button" id="product-cart-btn" data-id="${selectedGame.id}">Add to Basket</button>
             </div>
         </div>
@@ -480,13 +478,14 @@ function renderBasket() {
         };
         basketHeader.style.opacity = '0';
     } else {
-        basketItemsContainer.innerHTML = basket.map((game) => {
+        basketItemsContainer.innerHTML = 
+        basket.map((game) => {
             return `<div class="basket-item">
                 <img class="basket-item-image" src="${game.image}" alt="${game.alt}">
                 <div class="basket-item-details">
                     <h4 class="basket-item-name" id="basket-item-name">${game.title}</h4>
                     <div class="basket-price-amount">
-                        <p class="basket-item-price">£${game.price}</p>
+                        <p class="basket-item-price">£${game.price.toFixed(2)}</p>
                         <div class="basket-item-quantity-controls">
                             <div class="tooltip">
                                 <button class="cart-minus-button" data-id="${game.id}" aria-label="Decrease quantity">~<span class="tooltip-text">Decrease quantity</span></button>
@@ -507,10 +506,9 @@ function renderBasket() {
         const totals = calculateTotals();
         basketBottom.style.display = 'block';
         basketHeader.style.opacity = '1';
-        basketSummary.innerHTML = `<h2>Order Summary</h2>
+        basketSummary.innerHTML = `
         <div id="basket-totals" role="region" aria-label="Order Totals">
-            <h4>Subtotal <span class="checkout-sub-total">£${totals.basketTotalPrice.toFixed(2)}</span></h4>
-            <h4>Delivery Cost <span class="delivery-fee">${totals.deliveryFee === 0 ? '£0' : `£${totals.deliveryFee.toFixed(2)}`}</span></h4>
+            <h3 id="basket-delivery">Delivery<span>Calculated at checkout</span></h3>
             <h3>Order Total <span>£${totals.grandTotal.toFixed(2)}</span></h3>
         </div>`
     };
@@ -615,6 +613,19 @@ const deliveryHeaderIcon = document.getElementById('delivery-header-icon');
 const deliveryHeaderText = document.getElementById('delivery-header-text');
 const paymentHeaderIcon = document.getElementById('payment-header-icon');
 const paymentHeaderText = document.getElementById('payment-header-text');
+const alertContainer = document.getElementById('alert');
+function checkDeliveryComplete() {
+    const inputs = [
+        document.getElementById('surname'),
+        document.getElementById('email'),
+        document.getElementById('firstname'),
+        document.getElementById('customer-address'),
+        document.getElementById('customer-city'),
+        document.getElementById('customer-postcode')
+    ];
+    return inputs.every(input => input && input.value.trim() !== '');
+};
+
 
 function calculateTotals() {
     const basketTotalPrice = basket.reduce((total, game) => {
@@ -636,17 +647,18 @@ function renderCheckoutPage() {
         updateBasketTotal();
         const totals = calculateTotals();
         tableRows = basket.map((game) => `
-        <tr>
+        <tr class="basket-item-row collapsed">
             <td class="basket-item-name">${game.title}</td>
-            <td class="basket-item-price">£${game.price}</td>
+            <td class="basket-item-price">£${game.price.toFixed(2)}</td>
             <td class="basket-item-quantity">${game.quantity}</td>
         </tr>
         `).join('');
         
         checkoutSummaryContainer.innerHTML = `<h3>Order Summary</h3>
+        <button id="toggle-details-btn" class="master-expand-btn">Show Basket Details<span><i class="fa-solid fa-caret-down"></i></span></button>
         <table class="checkout-table">
-            <thead>
-                <tr>
+            <thead >
+                <tr class="checkout-header-row collapsed">
                     <th scope="col" class="game-title-header">Game Title</th>
                     <th scope="col">Price</th>
                     <th scope="col">Amount</th>
@@ -671,6 +683,24 @@ function renderCheckoutPage() {
             </tfoot>
         </table>
         `;
+
+        /* Show and hide games button */ 
+
+        document.addEventListener('click', (e) => {
+            const toggleDetailsBtn = e.target.closest('#toggle-details-btn');
+            if (!toggleDetailsBtn) return;
+            const checkoutHeaderRow = document.querySelector('.checkout-header-row');
+            const basketItemRow = document.querySelectorAll('.basket-item-row');
+            checkoutHeaderRow.classList.toggle('collapsed');
+            basketItemRow.forEach((row) => {
+            row.classList.toggle('collapsed');
+            })
+            if (checkoutHeaderRow.classList.contains('collapsed')) {
+                toggleDetailsBtn.innerHTML = 'Show Basket Details <span><i class="fa-solid fa-caret-down"></i></span>';
+            } else {
+                toggleDetailsBtn.innerHTML = 'Hide Basket Details <span><i class="fa-solid fa-caret-up"></i></span>';
+            };
+        });
     
         /* Payment Form */
 
@@ -694,33 +724,61 @@ function renderCheckoutPage() {
                         checkCardInputs();
                     } else if (radio.value === 'paypal') {
                         cardInputs.forEach(input => input.removeAttribute('required'));
-                        payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Proceed to Paypal</button>`;
-                        backFormBtn.disabled = false;
-                        if (window.matchMedia('(max-width: 750px)').matches) {
-                            window.scrollTo({ behavior: 'smooth', top: 600});
+                        if (checkDeliveryComplete()) {
+                            payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Proceed to Paypal</button>`;
+                            backFormBtn.disabled = false;
+                            if (window.matchMedia('(max-width: 750px)').matches) {
+                                window.scrollTo({ behavior: 'smooth', top: 600});
+                            } else {
+                                window.scrollTo({ behavior: 'smooth', top: 300});
+                            };
+                            if (checkoutContainer.classList.contains('form-step-three')) {
+                                checkoutContainer.classList.add('form-step-two');
+                                checkoutContainer.classList.remove('form-step-three');
+                            } else {
+                                checkoutContainer.classList.add('form-step-two');
+                            };
                         } else {
-                            window.scrollTo({ behavior: 'smooth', top: 400});
+                            alertContainer.innerHTML = `<i class="fa-solid fa-exclamation shake-alert" style="background-color: red;"></i>`;
+                    
                         };
-                        if (checkoutContainer.classList.contains('form-step-three')) {
-                            checkoutContainer.classList.add('form-step-two');
-                            checkoutContainer.classList.remove('form-step-three');
+                    } else if (radio.value === 'apple') {
+                        cardInputs.forEach(input => input.removeAttribute('required'));
+                        if (checkDeliveryComplete()) {
+                            payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay with Apple Pay</button>`;
+                            backFormBtn.disabled = false;
+                            if (window.matchMedia('(max-width: 750px)').matches) {
+                                window.scrollTo({ behavior: 'smooth', top: 600});
+                            } else {
+                                window.scrollTo({ behavior: 'smooth', top: 300});
+                            };
+                            if (checkoutContainer.classList.contains('form-step-three')) {
+                                checkoutContainer.classList.add('form-step-two');
+                                checkoutContainer.classList.remove('form-step-three');
+                            } else {
+                                checkoutContainer.classList.add('form-step-two');
+                            };
                         } else {
-                            checkoutContainer.classList.add('form-step-two');
+                            alertContainer.innerHTML = `<i class="fa-solid fa-exclamation shake-alert" style="background-color: red;"></i>`;
                         };
                     } else {
                         cardInputs.forEach(input => input.removeAttribute('required'));
-                        payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay with Apple Pay</button>`;
-                        backFormBtn.disabled = false;
-                        if (window.matchMedia('(max-width: 750px)').matches) {
-                            window.scrollTo({ behavior: 'smooth', top: 600});
+                        if (checkDeliveryComplete()) {
+                            payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay with Google Pay</button>`;
+                            backFormBtn.disabled = false;
+                            if (window.matchMedia('(max-width: 750px)').matches) {
+                                window.scrollTo({ behavior: 'smooth', top: 600});
+                            } else {
+                                window.scrollTo({ behavior: 'smooth', top: 300});
+                            };
+                            if (checkoutContainer.classList.contains('form-step-three')) {
+                                checkoutContainer.classList.add('form-step-two');
+                                checkoutContainer.classList.remove('form-step-three');
+                            } else {
+                                checkoutContainer.classList.add('form-step-two');
+                            };
                         } else {
-                            window.scrollTo({ behavior: 'smooth', top: 400});
-                        };
-                        if (checkoutContainer.classList.contains('form-step-three')) {
-                            checkoutContainer.classList.add('form-step-two');
-                            checkoutContainer.classList.remove('form-step-three');
-                        } else {
-                            checkoutContainer.classList.add('form-step-two');
+                            alertContainer.innerHTML = `<i class="fa-solid fa-exclamation shake-alert" style="background-color: red;"></i>`;
                         };
                     };
                 });
@@ -782,12 +840,17 @@ function renderCheckoutPage() {
 
             function checkCardInputs() {
                 if (cardNameInput.value !== '' && cardNumInput.value.length === 19 && expiryDate.value.length === 5 && (securityCode.value.length === 3 || securityCode.value.length === 4)) {
-                    payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay £${totals.grandTotal.toFixed(2)}</button>`;
-                    if (window.matchMedia('(max-width: 750px)').matches) {
+                    if (checkDeliveryComplete()) {
+                        payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay £${totals.grandTotal.toFixed(2)}</button>`;
+                        if (window.matchMedia('(max-width: 750px)').matches) {
                             window.scrollTo({ behavior: 'smooth', top: 600});
+                        } else {
+                            window.scrollTo({ behavior: 'smooth', top: 400});
+                        };
                     } else {
-                        window.scrollTo({ behavior: 'smooth', top: 400});
+                        alertContainer.innerHTML = `<i class="fa-solid fa-exclamation shake-alert" style="background-color: red;"></i>`;
                     };
+                    
                 } else {
                     payButton.innerHTML = '';
                 };
@@ -813,22 +876,50 @@ function renderCheckoutPage() {
             backToBasketIcon.style.display = 'none';
             backToBasketText.style.display = 'none';
         });
+        const alertContainer = document.getElementById('alert');
+        paymentOptions.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('input')) return;
+            const isComplete = checkDeliveryComplete();
+            const emailVal = emailInput ? emailInput.value : '';
+            if (!checkoutContainer.classList.contains('form-step-two')) {
+                checkoutContainer.classList.add('form-step-two');
+                checkoutContainer.classList.remove('form-step-one');
+                checkoutContainer.classList.remove('form-step-three');
+            };
+            if (isComplete && emailVal.includes('@')) {
+                alertContainer.innerHTML = `<i class="fa-solid fa-check" style="background-color: #3db43d;"></i>`;
+            } else {
+                alertContainer.innerHTML = `<i class="fa-solid fa-exclamation" style="background-color: red;"></i>`;
+            };
+            backFormBtn.disabled = false;
+        });
+        customerDetailsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('input')) return;
+
+            if (!checkoutContainer.classList.contains('form-step-one')) {
+                checkoutContainer.classList.add('form-step-one');
+                checkoutContainer.classList.remove('form-step-two');
+                checkoutContainer.classList.remove('form-step-three');
+                alertContainer.innerHTML = '';
+            };
+        });
 
     };
 
 };
 
-
 if (nextFormBtn) {
     nextFormBtn.addEventListener('click', (e) => {
-
+        e.preventDefault();
         let originalHeight = customerDetailsContainer.offsetHeight;
-        const isDeliveryDetailsComplete = Array.from(customerDetailsContainer.querySelectorAll('input[type="text"]')).every(input => input.value !== '');
-        if (isDeliveryDetailsComplete && emailInput.value.includes('@')) {
-            checkoutContainer.classList.add('form-step-two');
-            checkoutContainer.classList.remove('form-step-one');
-        } else if (!emailInput.value.includes('@')) {
-            emailInput.reportValidity();
+        const isComplete = checkDeliveryComplete();
+        const emailVal = emailInput ? emailInput.value : '';
+        checkoutContainer.classList.add('form-step-two');
+        checkoutContainer.classList.remove('form-step-one');
+        if (isComplete && emailVal.includes('@')) {
+            alertContainer.innerHTML = `<i class="fa-solid fa-check" style="background-color: #3db43d;"></i>`;
+        } else {
+            alertContainer.innerHTML = `<i class="fa-solid fa-exclamation" style="background-color: red;"></i>`;
         }
         if (window.matchMedia('(max-width: 900px)').matches) {
             paymentOptions.style.height = `${originalHeight}px`;
@@ -844,6 +935,7 @@ if (backFormBtn) {
         if (checkedRadio) {
             checkedRadio.checked = false;
         };
+        alertContainer.innerHTML = '';
     });
 };
 
@@ -1279,7 +1371,9 @@ function cartButtonListener() {
             updateBasketCount();
             updateBasketTotal();
             renderGamePage();
-            renderFeaturedGames();
+            if (topGames) {
+                renderFeaturedGames();
+            }
         });
     });
 };
@@ -1345,7 +1439,7 @@ searchbarInput.addEventListener('input', (searchGames) => {
                         <div class="search-item-details">
                             <h4 class="search-item-name">${game.title}</h4>
                             <div class="search-price-amount">
-                                <p class="search-item-price">£${game.price}</p>
+                                <p class="search-item-price">£${game.price.toFixed(2)}</p>
                             </div>
                         </div>
                     </div>
