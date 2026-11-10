@@ -708,6 +708,8 @@ function renderCheckoutPage() {
 
             const paymentTypeRadios = document.querySelectorAll('input[name="payment-type"]');
             const cardDetailsContainer = document.getElementById('card-details');
+            const isMobile = window.innerWidth <= 750;
+            const targetContainer = isMobile ? document.getElementById('pay-mobile') : document.getElementById('pay-desktop');
             
             
             paymentTypeRadios.forEach(function(radio) {
@@ -725,12 +727,12 @@ function renderCheckoutPage() {
                     } else if (radio.value === 'paypal') {
                         cardInputs.forEach(input => input.removeAttribute('required'));
                         if (checkDeliveryComplete()) {
-                            payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Proceed to Paypal</button>`;
+                            targetContainer.innerHTML = `<button id="pay" type="submit" form="checkout-form">Proceed to Paypal</button>`;
                             backFormBtn.disabled = false;
                             if (window.matchMedia('(max-width: 750px)').matches) {
                                 window.scrollTo({ behavior: 'smooth', top: 600});
                             } else {
-                                window.scrollTo({ behavior: 'smooth', top: 300});
+                                return;
                             };
                             if (checkoutContainer.classList.contains('form-step-three')) {
                                 checkoutContainer.classList.add('form-step-two');
@@ -745,12 +747,12 @@ function renderCheckoutPage() {
                     } else if (radio.value === 'apple') {
                         cardInputs.forEach(input => input.removeAttribute('required'));
                         if (checkDeliveryComplete()) {
-                            payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay with Apple Pay</button>`;
+                            targetContainer.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay with Apple Pay</button>`;
                             backFormBtn.disabled = false;
                             if (window.matchMedia('(max-width: 750px)').matches) {
                                 window.scrollTo({ behavior: 'smooth', top: 600});
                             } else {
-                                window.scrollTo({ behavior: 'smooth', top: 300});
+                                return;
                             };
                             if (checkoutContainer.classList.contains('form-step-three')) {
                                 checkoutContainer.classList.add('form-step-two');
@@ -764,12 +766,12 @@ function renderCheckoutPage() {
                     } else {
                         cardInputs.forEach(input => input.removeAttribute('required'));
                         if (checkDeliveryComplete()) {
-                            payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay with Google Pay</button>`;
+                            targetContainer.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay with Google Pay</button>`;
                             backFormBtn.disabled = false;
                             if (window.matchMedia('(max-width: 750px)').matches) {
                                 window.scrollTo({ behavior: 'smooth', top: 600});
                             } else {
-                                window.scrollTo({ behavior: 'smooth', top: 300});
+                                return;
                             };
                             if (checkoutContainer.classList.contains('form-step-three')) {
                                 checkoutContainer.classList.add('form-step-two');
@@ -841,18 +843,18 @@ function renderCheckoutPage() {
             function checkCardInputs() {
                 if (cardNameInput.value !== '' && cardNumInput.value.length === 19 && expiryDate.value.length === 5 && (securityCode.value.length === 3 || securityCode.value.length === 4)) {
                     if (checkDeliveryComplete()) {
-                        payButton.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay £${totals.grandTotal.toFixed(2)}</button>`;
+                        targetContainer.innerHTML = `<button id="pay" type="submit" form="checkout-form">Pay £${totals.grandTotal.toFixed(2)}</button>`;
                         if (window.matchMedia('(max-width: 750px)').matches) {
                             window.scrollTo({ behavior: 'smooth', top: 600});
                         } else {
-                            window.scrollTo({ behavior: 'smooth', top: 400});
+                            return;
                         };
                     } else {
                         alertContainer.innerHTML = `<i class="fa-solid fa-exclamation shake-alert" style="background-color: red;"></i>`;
                     };
                     
                 } else {
-                    payButton.innerHTML = '';
+                    targetContainer.innerHTML = '';
                 };
             };
         };

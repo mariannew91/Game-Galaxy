@@ -1414,7 +1414,6 @@ input[type="radio"] {
     min-width: 315px;
     width: 100%;
     max-width: clamp(315px, 35vw, 480px);
-    margin-right: 30px;
     padding: 30px 15px;
     position: relative;
     position-anchor: --summary-anchor;
@@ -1449,6 +1448,7 @@ input[type="radio"] {
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    box-shadow: 2px 2px 5px rgb(0 0 0 / 66%);
 }
 
 .checkout-header-row.collapsed, .basket-item-row.collapsed {
@@ -1557,7 +1557,7 @@ tfoot td:last-child {
     position: absolute;
     display: inline-block;
     top: 200px;
-    left: 120px;
+    left: 440px;
     color: white;
     border-radius: 50%;
     padding: 2px;
@@ -1638,6 +1638,7 @@ tfoot td:last-child {
     padding: 30px 50px;
     justify-content: center;
     anchor-name: --summary-anchor;
+    anchor-name: --pay-mobile-anchor;
 }
 
 form h3 {
@@ -1782,7 +1783,7 @@ input[type=text]:focus {
     display: block;
 }
 
-#pay button {
+#pay-desktop button, #pay-mobile button {
     cursor: pointer;
     border: none;
     min-width: 180px;
@@ -1792,13 +1793,22 @@ input[type=text]:focus {
     background-color: var(--accent-pink);
     font-size: 1.2rem;
     color: var(--text-main);
-    position: fixed;
-    position-anchor: --pay-anchor;
-    position-area: block-end center;
     margin-top: 5px;
 }
 
-#pay button:hover {
+#pay-desktop button {
+    position: fixed;
+    position-anchor: --pay-anchor;
+    position-area: block-end center;
+}
+
+#pay-mobile button {
+    position: fixed;
+    position-anchor: --pay-mobile-anchor;
+    position-area: block-end center;
+}
+
+#pay-desktop button:hover, #pay-mobile button:hover {
     background-color: var(--accent-pink-hover);
     background: radial-gradient(circle at 25% 25%, #fd3f91 0%, /* The light center */ #c80f5f 40%, /* Your base color */ #a0074e 100% /* The deep edge */);
 }
@@ -1922,8 +1932,8 @@ input[type=text]:focus {
     }
 
     .checkout-summary {
-        margin-right: 0;
-        margin-left: 30px;
+        margin-left: 0;
+        margin-right: 30px;
         background-color: var(--bg-card);
     }
 
@@ -2234,6 +2244,7 @@ input[type=text]:focus {
         max-width: 500px;
         position: unset;
         padding: 15px 30px;
+        margin-bottom: 30px;
     }
 
     #checkout-btn {
@@ -2617,7 +2628,7 @@ input[type=text]:focus {
 
     .checkout-summary {
         width: 100%;
-        margin: 0;
+        margin: 0 0 20px;
         padding: 20px;
     }
 }
